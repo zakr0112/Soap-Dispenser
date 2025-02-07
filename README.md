@@ -13,8 +13,8 @@ Things you will require
 ## Getting Started
 Open your editor of choice and open the terminal to clone this repository:
 ```
-git clone https://github.com/lbu-wat/web-development-project-zakr0112.git
-cd web-development-project-zakr0112
+https://github.com/zakr0112/Soap-Dispenser.git
+cd ????
 ```
 Note: This should clone the repository into your file system and navigate to it\
 If for example you are using visual studio code, make sure it's a blank window when\
