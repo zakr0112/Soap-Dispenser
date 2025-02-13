@@ -13,7 +13,7 @@ Things you will require
 ## Getting Started
 Open your editor of choice and open the terminal to clone this repository:
 ```
-https://github.com/zakr0112/Soap-Dispenser.git
+git clone https://github.com/zakr0112/Soap-Dispenser.git
 cd SoapProject
 ```
 Note: This should clone the repository into your file system and navigate to it\
