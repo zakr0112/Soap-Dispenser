@@ -40,7 +40,7 @@ source venv/bin/activate
 ```
 ## Continue (Universal)
 ```
-cd myproject\myproject
+cd SoapProject\soapdispenser
 ```
 ```
 pip install -r requirements.txt
