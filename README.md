@@ -10,6 +10,8 @@ Things you will require
 * git bash installed
 
 
+THE INSTALLATION IS NOT FINAL
+
 ## Getting Started
 Open your editor of choice and open the terminal to clone this repository:
 ```
