@@ -53,9 +53,16 @@ pip install django
 ```
 pip install pillow
 ```
+
+## Final Run
+Open a new terminal via 'View > Terminal' in VS CODE and run the following commands
+```
+cd Soap-Dispenser/SoapProject
+```
 ```
 python manage.py runserver
 ```
+
 ## Additional Information
 
 * Using Django as the web framework
