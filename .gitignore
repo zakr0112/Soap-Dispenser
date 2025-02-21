@@ -26,5 +26,4 @@ env/
 staticfiles/
 media/
 
-# Database
-*.sqlite3
+
