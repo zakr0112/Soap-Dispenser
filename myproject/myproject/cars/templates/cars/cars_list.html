@@ -1,0 +1,112 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/carslist.css' %}">
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="width:100%">
+    <thead>
+        <tr>
+            <th>Maker</th>
+            <th>Model</th>
+            <th>Specifications</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for car in cars %}
+        <tr>
+            <!-- Display maker and model -->
+            <td>{{ car.1 }}</td>
+            <td>{{ car.2 }}</td>
+            <td>
+                <!-- "Open" button with toggle functionality -->
+                <button class="button is-info is-small" onclick="toggleDetails('specs-{{ car.0 }}', this)">
+                    View
+                </button>
+            </td>
+        </tr>
+        <!-- Row for expanded details -->
+        <tr id="specs-{{ car.0 }}" class="details-row" style="display: none;">
+            <td colspan="3">
+                <div style="display: flex; align-items: flex-start; gap: 20px;">
+                    <!-- Show the image if available -->
+                    <div style="flex-shrink: 0; max-width: 300px;">
+                        <!-- <img src="data:image/webp;base64,{{ car.9 }}" alt="Car Image" style="width: 100%; max-width: 300px;"> -->
+                       {% if car.8 %}
+                        <img src="data:image/webp;base64,{{ car.9 }}" alt="Car Image" style="width: 100%; max-width: 300px;"> 
+                        {% else %}
+                        <img src="{% static 'image/apexautoslogo.webp' %}" alt="Apex Autos Logo" style="width: 100%; max-width: 300px;">
+                        {% endif %} 
+                    
+                    </div>
+                    <!-- Car details and Buy Now button -->
+                    <div style="flex-grow: 1;">
+                        <p><strong>Type:</strong> {{ car.3 }}</p>
+                        <p><strong>Fuel:</strong> {{ car.4 }}</p>
+                        <p><strong>Transmission:</strong> {{ car.5 }}</p>
+                        <p><strong>Seats:</strong> {{ car.6 }}</p>
+                        <p><strong>Price:</strong> £{{ car.7 }}</p>
+                        <!-- Buy Now button -->
+                        <button class="button is-success is-small" onclick="buyCar('{{ car.0 }}')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    function toggleDetails(rowId, button) {
+        const row = document.getElementById(rowId);
+        if (row.style.display === 'none' || row.style.display === '') {
+            row.style.display = 'table-row';
+            button.classList.remove('is-info');
+            button.classList.add('is-danger');
+            button.textContent = 'Close';
+        } else {
+            row.style.display = 'none';
+            button.classList.remove('is-danger');
+            button.classList.add('is-info');
+            button.textContent = 'View';
+        }
+    }
+
+    function buyCar(carId) {
+        alert(`Thank you for your interest in buying this vehicle!`);
+    }
+
+
+   
+        // Check if there's a car_id query parameter in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('car_id'); // Get the car_id parameter from the URL
+      
+        if (carId) {
+          // Scroll to the car details section for the car with the ID
+          const carDetailsSection = document.getElementById(`car-details-${carId}`);
+          if (carDetailsSection) {
+            // Scroll the car details section into view
+            carDetailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+   
+
+</script>
+
+<!-- Pagination Links -->
+<div class="pagination">
+    <span class="step-links">
+        {% if cars.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ cars.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ cars.number }} of {{ cars.paginator.num_pages }}.
+        </span>
+
+        {% if cars.has_next %}
+            <a href="?page={{ cars.next_page_number }}">next</a>
+            <a href="?page={{ cars.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

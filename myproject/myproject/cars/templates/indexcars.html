@@ -1,0 +1,25 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/indexcars.css' %}">
+<!-- Flexbox container for 3 cars -->
+<div class="cars-row">
+    {% for car in cars %}
+      <div class="car-item">
+        <div class="car-image">
+          {% if car.8 %}
+            <img src="data:image/webp;base64,{{ car.9 }}" alt="Car Image">
+          {% else %}
+            <img src="{% static 'image/apexautoslogo.webp' %}" alt="Apex Autos Logo">
+          {% endif %}
+        </div>
+        <div class="car-details">
+          <p><strong>Maker:</strong> {{ car.1 }}</p>
+          <p><strong>Model:</strong> {{ car.2 }}</p>
+          <p><strong>Price:</strong> £{{ car.7 }}</p>
+
+        </div>
+      </div>
+      
+    {% endfor %}
+  </div> <!-- End of flex container -->
+</div>
+</div>

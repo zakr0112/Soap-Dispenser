@@ -1,0 +1,15 @@
+
+    #details img {
+        max-width: 200px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+
+    .collapse {
+        display: none;
+    }
+
+    .collapse.in {
+        display: block;
+    }

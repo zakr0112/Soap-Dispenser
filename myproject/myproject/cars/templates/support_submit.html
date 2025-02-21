@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apex Autos</title>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/WBkB3bv/apexautoslogo.png">
+</head>
+<body>
+
+  
+  
+  <style>
+    /* Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #333;
+    }
+
+    .navbar-logo img {
+      height: 50px; /* Adjust based on logo size */
+      margin-right: 20px; /* Space between logo and buttons */
+    }
+
+    .navbar-buttons {
+      display: flex;
+    }
+
+    .navbar-buttons .button {
+      margin-left: 10px; /* Space between buttons */
+    }
+  </style>
+
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="{% url 'index' %}">
+        <img src="{% static 'image/apexautoslogo.webp' %}" alt="Apex Autos Logo">
+      </a>
+    </div>
+    <div class="navbar-buttons">
+      <a class="button is-large is-info is-dark is-outlined" href="{% url 'index' %}">Home</a>
+      <a class="button is-large is-info is-dark is-outlined" href="{% url 'vehicles' %}">Vehicles</a>
+      <a class="button is-large is-info is-dark is-outlined" href="{% url 'support' %}">Support</a>
+    </div>
+  </nav>
+  
+
+
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+  <div class="w3-display-topleft w3-padding-large w3-xlarge">
+  </div>
+  <div class="w3-display-middle">
+    <img src="{% static 'image/apexautoslogo.webp' %}" alt="Apex Autos Logo">
+   
+    <hr class="w3-border-black" style="margin:auto;width:100%">
+    <br>
+    <div class="box">
+        <div class="media-content">
+          <div class="content">
+              
+            <h6><bold>Apex Autos</bold></h6> <p>Thank you for submitting a support request, we will get back to you shortly!
+            </p>
+          </div>
+          
+          <nav class="level is-mobile">
+            <div class="level-left">
+    
+            </div>
+          </nav>
+        </div>
+    </div>
+
+    <div class="buttons-container">
+      <a href="{% url 'index' %}" class="button is-primary">
+        <span>
+        </span>
+        <span>Go Home</span>
+      </a>
+      <br><br>
+    </div>
+
+
+  </div>
+
+  </div>
+
+
+
+</body>
+</html>
