@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import base64
 
 class SoapDispenser(models.Model):
     name = models.CharField(max_length=100) 
