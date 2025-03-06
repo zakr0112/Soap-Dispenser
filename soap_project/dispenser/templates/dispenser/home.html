@@ -17,9 +17,10 @@
             <table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Soap Level (%)</th>
-                        <th>Last Refill</th>
+                        <th>Dispenser ID</th>
+                        <th>Room ID</th>
+                        <th>Dispenser Content</th>
+                        <th>Liquid Level</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,7 @@
                         <td>{{ dispenser.0 }}</td>
                         <td>{{ dispenser.1 }}</td>
                         <td>{{ dispenser.2 }}</td>
+                        <td>{{ dispenser.3 }}</td>
                     </tr>
                     {% empty %}
                     <tr>
