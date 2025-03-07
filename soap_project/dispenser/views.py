@@ -43,6 +43,6 @@ def stock(request):
 
 def sites(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT Dispenser_ID, Room_ID, Dis_Content, Level_Liquid FROM dispenser")
+        cursor.execute("SELECT Site_ID, Site_Name, Address, Phone_Number, Email FROM SITE")
         soaps = cursor.fetchall()
     return render(request, 'dispenser/sites.html', {'dispensers': soaps})
