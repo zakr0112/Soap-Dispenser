@@ -45,4 +45,7 @@ def sites(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT Site_ID, Site_Name, Address, Phone_Number, Email FROM SITE")
         soaps = cursor.fetchall()
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT Building_ID, Site_ID, Floors, Address, Phone_Number, Email FROM BUILDING")
     return render(request, 'dispenser/sites.html', {'dispensers': soaps})
