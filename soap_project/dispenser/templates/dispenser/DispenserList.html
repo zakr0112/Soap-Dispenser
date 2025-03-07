@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soap Dispenser</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+
+
+
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'home' %}">
+                    <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+    
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
+                    <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
+                    <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
+                    <a class="navbar-item" href="{% url 'dispenser_list' %}">Dispensers</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Dispensers</h1>
+            <table class="table is-striped is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Dispenser ID</th>
+                        <th>Room ID</th>
+                        <th>Dispenser Content</th>
+                        <th>Liquid Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dispenser in dispensers %}
+                    <tr>
+                        <td>{{ dispenser.0 }}</td>
+                        <td>{{ dispenser.1 }}</td>
+                        <td>{{ dispenser.2 }}</td>
+                        <td>{{ dispenser.3 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('#navbarMenu');
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
