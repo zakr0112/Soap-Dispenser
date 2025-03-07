@@ -10,8 +10,6 @@
 </head>
 <body>
 
-
-
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
@@ -36,41 +34,44 @@
         </div>
     </nav>
 
-
-    
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Dispensers</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Dispenser ID</th>
-                        <th>Room ID</th>
-                        <th>Dispenser Content</th>
-                        <th>Liquid Level</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for dispenser in dispensers %}
-                    <tr>
-                        <td>{{ dispenser.0 }}</td>
-                        <td>{{ dispenser.1 }}</td>
-                        <td>{{ dispenser.2 }}</td>
-                        <td>{{ dispenser.3 }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3">No data available</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <article class="message">
+                    <div class="message-header">
+                        <p>DispenserInc</p>
+                    </div>
+                    <div class="message-body">
+                        <h1 class="title">Dispensers</h1>
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Dispenser ID</th>
+                                    <th>Room ID</th>
+                                    <th>Dispenser Content</th>
+                                    <th>Liquid Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dispenser in dispensers %}
+                                <tr>
+                                    <td>{{ dispenser.0 }}</td>
+                                    <td>{{ dispenser.1 }}</td>
+                                    <td>{{ dispenser.2 }}</td>
+                                    <td>{{ dispenser.3 }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
-    
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

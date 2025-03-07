@@ -5,12 +5,9 @@
     <title>Soap Dispenser</title>
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-
-
 
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -36,21 +33,22 @@
         </div>
     </nav>
 
-
-    
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Welcome to Dispenser Inc!</h1>
-            This website is used in conjunction with the dispenser module,
-                and thus will eventually 
-                show live data from an online database.
-            
+                <article class="message">
+                    <div class="message-header">
+                        <p>Dispenser Inc</p>
+                    </div>
+                    <div class="message-body">
+                        <h3>Welcome to DispenserInc!</h3>
+                        This website is used in conjunction with the dispenser module, 
+                        and thus will eventually show live data from an online database.
+                    </div>
+                </article>
             </div>
+        </div>
     </section>
-    
-    
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

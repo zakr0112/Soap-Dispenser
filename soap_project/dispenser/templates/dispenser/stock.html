@@ -5,12 +5,9 @@
     <title>Soap Dispenser</title>
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-
-
 
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -36,110 +33,129 @@
         </div>
     </nav>
 
-
-    
+    <!-- Restock Companies Section -->
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Restock Companies</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Company</th>
-                        <th>Restock IDs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for company, restock_ids in companies_dict.items %}
-                    <tr>
-                        <td>{{ company }}</td>
-                        <td>
-                            {% for restock_id in restock_ids %}
-                                <div>{{ restock_id }}</div>
-                            {% empty %}
-                                <div>No Restock IDs</div>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="2">No data available</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <article class="message">
+                    <div class="message-header">
+                        <p>DispenserInc</p>
+                    </div>
+                    <div class="message-body">
+                        <h1 class="title">Restock Companies</h1>
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Restock IDs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for company, restock_ids in companies_dict.items %}
+                                <tr>
+                                    <td>{{ company }}</td>
+                                    <td>
+                                        {% for restock_id in restock_ids %}
+                                            <div>{{ restock_id }}</div>
+                                        {% empty %}
+                                            <div>No Restock IDs</div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
+    <!-- Stock Purchases Section -->
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Stock Purchases</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Restock ID</th>
-                        <th>Soap Amount</th>
-                        <th>Sanitizer Amount</th>
-                        <th>Soap Price</th>
-                        <th>Sanitizer Price</th>
-                        <th>Total</th>
-                        <th>Delivery Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for RESTOCK in dispensers %}
-                    <tr>
-                        <td>{{ RESTOCK.0 }}</td>
-                        <td>{{ RESTOCK.2 }}</td>
-                        <td>{{ RESTOCK.3 }}</td>
-                        <td>{{ RESTOCK.4 }}</td>
-                        <td>{{ RESTOCK.5 }}</td>
-                        <td>{{ RESTOCK.6 }}</td>
-                        <td>{{ RESTOCK.8 }}</td>
-
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3">No data available</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <article class="message">
+                    <div class="message-header">
+                        <p>DispenserInc</p>
+                    </div>
+                    <div class="message-body">
+                        <h1 class="title">Stock Purchases</h1>
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Restock ID</th>
+                                    <th>Soap Amount</th>
+                                    <th>Sanitizer Amount</th>
+                                    <th>Soap Price</th>
+                                    <th>Sanitizer Price</th>
+                                    <th>Total</th>
+                                    <th>Delivery Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for RESTOCK in dispensers %}
+                                <tr>
+                                    <td>{{ RESTOCK.0 }}</td>
+                                    <td>{{ RESTOCK.2 }}</td>
+                                    <td>{{ RESTOCK.3 }}</td>
+                                    <td>{{ RESTOCK.4 }}</td>
+                                    <td>{{ RESTOCK.5 }}</td>
+                                    <td>{{ RESTOCK.6 }}</td>
+                                    <td>{{ RESTOCK.8 }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-
+    <!-- Stock Supervisor Section -->
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Stock Supervisor</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Restock ID</th>
-                        <th>Supervisor ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for RESTOCK in dispensers %}
-                    <tr>
-                        <td>{{ RESTOCK.0 }}</td>
-                        <td>{{ RESTOCK.1 }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3">No data available</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <article class="message">
+                    <div class="message-header">
+                        <p>DispenserInc</p>
+                    </div>
+                    <div class="message-body">
+                        <h1 class="title">Stock Supervisor</h1>
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Restock ID</th>
+                                    <th>Supervisor ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for RESTOCK in dispensers %}
+                                <tr>
+                                    <td>{{ RESTOCK.0 }}</td>
+                                    <td>{{ RESTOCK.1 }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
         </div>
-        </div>
-    </section>    
-
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

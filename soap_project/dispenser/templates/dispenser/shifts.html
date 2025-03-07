@@ -5,12 +5,9 @@
     <title>Soap Dispenser</title>
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-
-
 
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -36,41 +33,44 @@
         </div>
     </nav>
 
-
-    
     <section class="section">
         <div class="container">
             <div class="box">
-            <h1 class="title">Shifts</h1>
-            <table class="table is-striped is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Shift ID</th>
-                        <th>Cleaner ID</th>
-                        <th>Start Time</th>
-                        <th>Finish Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for SHIFT in dispensers %}
-                    <tr>
-                        <td>{{ SHIFT.0 }}</td>
-                        <td>{{ SHIFT.1 }}</td>
-                        <td>{{ SHIFT.2 }}</td>
-                        <td>{{ SHIFT.3 }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3">No data available</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <article class="message">
+                    <div class="message-header">
+                        <p>DispenserInc</p>
+                    </div>
+                    <div class="message-body">
+                        <table class="table is-striped is-fullwidth">
+                            <h1 class="title">Shifts</h1>
+                            <thead>
+                                <tr>
+                                    <th>Shift ID</th>
+                                    <th>Cleaner ID</th>
+                                    <th>Start Time</th>
+                                    <th>Finish Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for SHIFT in dispensers %}
+                                <tr>
+                                    <td>{{ SHIFT.0 }}</td>
+                                    <td>{{ SHIFT.1 }}</td>
+                                    <td>{{ SHIFT.2 }}</td>
+                                    <td>{{ SHIFT.3 }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
-    
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
