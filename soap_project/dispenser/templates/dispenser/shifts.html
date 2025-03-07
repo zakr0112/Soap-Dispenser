@@ -41,8 +41,31 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Shifts</h1>
-            <h4>Coming Soon</h4>
-            
+            <table class="table is-striped is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Shift ID</th>
+                        <th>Cleaner ID</th>
+                        <th>Start Time</th>
+                        <th>Finish Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for SHIFT in dispensers %}
+                    <tr>
+                        <td>{{ SHIFT.0 }}</td>
+                        <td>{{ SHIFT.1 }}</td>
+                        <td>{{ SHIFT.2 }}</td>
+                        <td>{{ SHIFT.3 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
     
 
