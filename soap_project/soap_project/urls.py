@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from dispenser.views import home
+from django.urls import include, path
+from dispenser.views import home, dispenser_list, shifts, stock, sites
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('shifts/', shifts, name='shifts'), 
+    path('stock/', stock, name='stock'), 
+    path('sites/', sites, name='sites'), 
+    path('dispenserlist/', dispenser_list, name='dispenser_list'), 
 ]
