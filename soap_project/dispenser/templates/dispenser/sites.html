@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sites</title>
     {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
@@ -79,10 +80,32 @@
             <div class="box">
                 <article class="message">
                     <div class="message-header">
-                        <p>Dispenser Inc</p>
+                        <p>DispenserInc</p>
                     </div>
                     <div class="message-body">
-                        This data is coming soon
+                        <table class="table is-striped is-fullwidth">
+                            <h1 class="title">Buildings</h1>
+                            <thead>
+                                <tr>
+                                    <th>Building ID</th>
+                                    <th>Site Name</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for BUILDING in dispensers %}
+                                <tr>
+                                    <td>{{ BUILDING.0 }}</td>
+                                    <td>{{ BUILDING.1 }}</td>
+                                    <td>{{ BUILDING.2 }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No data available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </article>
             </div>
