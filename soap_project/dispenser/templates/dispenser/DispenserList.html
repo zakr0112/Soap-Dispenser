@@ -2,11 +2,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifts</title>
+    <title>Dispensers</title>
     {% load static %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -22,13 +24,13 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-    
+
             <div id="navbarMenu" class="navbar-menu">
                 <div class="navbar-end">
                     <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
                     <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
                     <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
-                    <a class="navbar-item" href="{% url 'dispenser_list' %}">Dispensers</a>
+                    <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
                 </div>
             </div>
         </div>
@@ -49,33 +51,72 @@
             <div class="box">
                 <article class="message">
                     <div class="message-header">
-                        <p>[TABLE: dispenser]</p>
+                        <p>[TABLE: vwDispenserResolved]</p>
                     </div>
                     <div class="message-body">
-                        <table class="table is-striped is-fullwidth">
+                        <table class="table is-striped is-fullwidth is-compact is-responsive">
                             <thead>
                                 <tr>
-                                    <th>Dispenser ID</th>
-                                    <th>Room ID</th>
-                                    <th>Dispenser Content</th>
-                                    <th>Liquid Level</th>
+                                    <th>ID</th>
+                                    <th>Site</th>
+                                    <th>Room</th>
+                                    <th>Content</th>
+                                    <th>Fill</th>
+                                    <th>Collections</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for dispenser in dispensers %}
+                                {% for DispenserResolved in page_obj %}
                                 <tr>
-                                    <td>{{ dispenser.0 }}</td>
-                                    <td>{{ dispenser.1 }}</td>
-                                    <td>{{ dispenser.2 }}</td>
-                                    <td>{{ dispenser.3 }}</td>
+                                    <td>{{ DispenserResolved.2 }}</td>
+                                    <td>{{ DispenserResolved.0 }}</td>
+                                    <td>{{ DispenserResolved.1 }}</td>
+                                    <td>{{ DispenserResolved.3 }}</td>
+                                    <td>{{ DispenserResolved.4 }}ml/500ml<progress class="progress {{ DispenserResolved.6 }}" value="{{ DispenserResolved.5 }}" max="100"></progress></td>
+                                    <td>
+                                       <button class="btn btn-small btn-primary view-collection-btn" data-dispenser="{{ DispenserResolved.2 }}">
+                                           View
+                                       </button>
+                                   </td>
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="4">No data available</td>
+                                    <td colspan="5">No data available</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+
+
+
+
+
+                        <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                           <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+
+                           <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                               {% if page_obj.has_previous %}
+                                   <a class="button is-info has-text-white" href="?page=1">First</a>
+                                   <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                               {% else %}
+                                   <a class="button" disabled>First</a>
+                                   <a class="button" disabled>Previous</a>
+                               {% endif %}
+
+                               {% if page_obj.has_next %}
+                                   <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                   <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                               {% else %}
+                                   <a class="button" disabled>Next</a>
+                                   <a class="button" disabled>Last</a>
+                               {% endif %}
+                           </nav>
+                       </div>
+
+
+
+
+
                     </div>
                 </article>
             </div>
@@ -94,5 +135,71 @@
             }
         });
     </script>
+
+
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="collectionModal" tabindex="-1" aria-labelledby="collectionModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title">Collection Data</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+           </div>
+           <div class="modal-body">
+               <table class="table table-striped">
+                   <thead>
+                       <tr>
+                           <th>When Collected</th>
+                           <th>Liquid</th>
+                       </tr>
+                   </thead>
+                   <tbody id="collection-data">
+                       <!-- Data will be injected here -->
+                   </tbody>
+               </table>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           </div>
+       </div>
+   </div>
+</div>
+
+<!-- Bootstrap & AJAX Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".view-collection-btn").click(function() {
+            let dispenserId = $(this).data("dispenser");
+            let modal = new bootstrap.Modal(document.getElementById("collectionModal"));
+            $("#collection-data").html("<tr><td colspan='4' class='text-center'>Loading...</td></tr>");  // Show loading state
+
+            // Fetch collection data via AJAX
+            $.ajax({
+                url: "/get_collection_data/" + dispenserId + "/",
+                method: "GET",
+                success: function(data) {
+                    let tableRows = "";
+                    if (data.length > 0) {
+                        data.forEach(function(row) {
+                            tableRows += `<tr>
+                                <td>${row.timedate}</td>
+                                <td>${row.level}</td>
+                            </tr>`;
+                        });
+                    } else {
+                        tableRows = "<tr><td colspan='4' class='text-center'>No data available</td></tr>";
+                    }
+                    $("#collection-data").html(tableRows);
+                },
+                error: function() {
+                    $("#collection-data").html("<tr><td colspan='4' class='text-center text-danger'>Error loading data</td></tr>");
+                }
+            });
+
+            modal.show();
+        });
+    });
+</script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <title>Sites</title>
     {% load static %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
@@ -22,13 +23,13 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-    
+
             <div id="navbarMenu" class="navbar-menu">
                 <div class="navbar-end">
                     <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
                     <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
                     <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
-                    <a class="navbar-item" href="{% url 'dispenser_list' %}">Dispensers</a>
+                    <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
                 </div>
             </div>
         </div>
@@ -86,7 +87,7 @@
     </section>
 
 
-    
+
     <section class="section">
         <div class="container">
             <div class="box">
@@ -113,7 +114,7 @@
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="4">No data available</td>
+                                    <td colspan="3">No data available</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
