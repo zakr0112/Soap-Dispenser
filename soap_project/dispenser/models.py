@@ -30,6 +30,18 @@ class Dispenser(models.Model):
     Dis_content = models.CharField(max_length=9)
     Level_Liquid = models.PositiveSmallIntegerField(null=True, blank=True)
 
+class DispenserResolved(models.Model):
+    siteName = models.CharField(max_length=32)
+    roomType = models.CharField(max_length=32)
+    dispenserID = models.CharField(max_length=6)
+    dispenserContent = models.CharField(max_length=9)
+    dispenserLevelLiquid = models.PositiveSmallIntegerField()
+    dispenserPercentage = models.DecimalField(decimal_places=2, max_digits=8)
+    dispenserStatus = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.siteName
+
 class Stockroom(models.Model):
     Stockroom_ID = models.CharField(max_length=6, primary_key=True)
     Site_ID = models.ForeignKey(Site, on_delete=models.CASCADE)
