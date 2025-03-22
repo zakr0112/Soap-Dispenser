@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dispensers</title>
+    <title>Cleaners</title>
     {% load static %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -42,7 +42,7 @@
         <div class="container">
                     </div>
                     <div class="message-body">
-                            <h1 class="title">Dispenser Management</h1>
+                            <h1 class="title">Cleaners Management</h1>
                     </div>
             </div>
         </div>
@@ -53,30 +53,28 @@
             <div class="box">
                 <article class="message">
                     <div class="message-header">
-                        <h3>Dispenser Information</h3>
+                        <h3>Cleaners Information</h3>
                     </div>
                     <div class="message-body">
                         <table class="table is-striped is-fullwidth is-compact is-responsive">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Site</th>
-                                    <th>Room</th>
-                                    <th>Content</th>
-                                    <th>Fill</th>
-                                    <th>Collections</th>
+                                    <th>First name</th>
+                                    <th>Surname</th>
+                                    <th>Hire Date</th>
+                                    <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for DispenserResolved in page_obj %}
+                                {% for CLEANERS in page_obj %}
                                 <tr>
-                                    <td>{{ DispenserResolved.2 }}</td>
-                                    <td>{{ DispenserResolved.0 }}</td>
-                                    <td>{{ DispenserResolved.1 }}</td>
-                                    <td>{{ DispenserResolved.3 }}</td>
-                                    <td>{{ DispenserResolved.4 }}ml/500ml<progress class="progress {{ DispenserResolved.6 }}" value="{{ DispenserResolved.5 }}" max="100"></progress></td>
+                                    <td>{{ CLEANERS.0 }}</td>
+                                    <td>{{ CLEANERS.1 }}</td>
+                                    <td>{{ CLEANERS.2 }}</td>
+                                    <td>{{ CLEANERS.3|date:"d/m/Y" }}</td>
                                     <td>
-                                       <button class="btn btn-small btn-primary view-collection-btn" data-dispenser="{{ DispenserResolved.2 }}">
+                                       <button class="btn btn-small btn-primary view-cleaner-btn" data-cleaner="{{ CLEANERS.0 }}">
                                            View
                                        </button>
                                    </td>
@@ -88,10 +86,6 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-
-
-
-
 
                         <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
                            <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
@@ -114,11 +108,6 @@
                                {% endif %}
                            </nav>
                        </div>
-
-
-
-
-
                     </div>
                 </article>
             </div>
@@ -138,72 +127,64 @@
         });
     </script>
 
-
     <!-- Bootstrap Modal -->
-<div class="modal fade" id="collectionModal" tabindex="-1" aria-labelledby="collectionModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title" id="collectionModalLabel">Collection Data</h5>
+    <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">Cleaner Details</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-               <table class="table table-striped">
-                   <thead>
-                       <tr>
-                           <th>When Collected</th>
-                           <th>Liquid</th>
-                       </tr>
-                   </thead>
-                   <tbody id="collection-data">
-                       <!-- Data will be injected here -->
-                   </tbody>
-               </table>
-           </div>
-           <div class="modal-footer">
+            </div>
+            <div class="modal-body">
+               <div id="cleaner-details">
+                  <!-- Details will be dynamically injected here -->
+               </div>
+            </div>
+            <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-           </div>
-       </div>
+            </div>
+         </div>
+      </div>
    </div>
-</div>
 
-<!-- Bootstrap & AJAX Script -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $(".view-collection-btn").click(function() {
-            let dispenserId = $(this).data("dispenser");
-            let modal = new bootstrap.Modal(document.getElementById("collectionModal"));
+   <!-- Bootstrap & AJAX Script -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+      $(document).ready(function() {
+         $(".view-cleaner-btn").click(function() {
+            let cleanerId = $(this).data("cleaner");
+            let modal = new bootstrap.Modal(document.getElementById("cleanerDetailsModal"));
 
-            // Update the modal title with the dispenser ID
-            $("#collectionModalLabel").text(`Collection Data for Dispenser ${dispenserId}`);
-            $("#collection-data").html("<tr><td colspan='4' class='text-center'>Loading...</td></tr>");  // Show loading state
-            // Fetch collection data via AJAX
+            // Show loading state
+            $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
+
+            // Fetch cleaner data via AJAX
             $.ajax({
-                url: "/get_collection_data/" + dispenserId + "/",
-                method: "GET",
-                success: function(data) {
-                    let tableRows = "";
-                    if (data.length > 0) {
-                        data.forEach(function(row) {
-                            tableRows += `<tr>
-                                <td>${row.timedate}</td>
-                                <td>${row.level}</td>
-                            </tr>`;
-                        });
-                    } else {
-                        tableRows = "<tr><td colspan='4' class='text-center'>No data available</td></tr>";
-                    }
-                    $("#collection-data").html(tableRows);
-                },
-                error: function() {
-                    $("#collection-data").html("<tr><td colspan='4' class='text-center text-danger'>Error loading data</td></tr>");
-                }
+               url: "/get_cleaner_data/" + cleanerId + "/", // Define your endpoint in Django
+               method: "GET",
+               success: function(data) {
+                  // Dynamically build cleaner details layout
+                  let detailsHtml = `
+                     <p><strong>ID:</strong> ${data.Cleaner_ID}</p>
+                     <p><strong>Firstname:</strong> ${data.Firstname}</p>
+                     <p><strong>Surname:</strong> ${data.Surname}</p>
+                     <p><strong>Date of Birth:</strong> ${data.DOB}</p>
+                     <p><strong>Address:</strong> ${data.Address}</p>
+                     <p><strong>Email:</strong> ${data.Email}</p>
+                     <p><strong>Phone Number:</strong> ${data.Phone_Number}</p>
+                     <p><strong>Salary:</strong> ${data.Salary}</p>
+                     <p><strong>Hire Date:</strong> ${data.Hire_Date}</p>
+                     <p><strong>Staff Manager:</strong> ${data.Staff_Manager}</p>`;
+                  $("#cleaner-details").html(detailsHtml);
+               },
+               error: function() {
+                  $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
+               }
             });
-
             modal.show();
-        });
-    });
-</script>
+         });
+      });
+   </script>
+
 </body>
 </html>

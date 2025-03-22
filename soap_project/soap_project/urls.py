@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include, path
-from dispenser.views import home, shifts, stock, sites, dispenser_resolved, get_collection_data
+from dispenser.views import home, shifts, stock, sites, dispenser_resolved, get_collection_data, cleaners, get_cleaner_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,8 @@ urlpatterns = [
     path('shifts/', shifts, name='shifts'),
     path('stock/', stock, name='stock'),
     path('sites/', sites, name='sites'),
+    path('cleaners/', cleaners, name='cleaners'),
     path('dispenserlist/', dispenser_resolved, name='dispenser_resolved'),
     path('get_collection_data/<str:dispenser_id>/', get_collection_data, name='get_collection_data'),
+    path('get_cleaner_data/<str:cleaner_id>/', get_cleaner_data, name='get_cleaner_data'),
 ]
