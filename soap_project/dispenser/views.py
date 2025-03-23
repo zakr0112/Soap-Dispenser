@@ -84,7 +84,6 @@ def get_collection_data(request, dispenser_id):
    ]
    return JsonResponse(collection_list, safe=False)
 
-
 def cleaners(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM CLEANER")
@@ -101,31 +100,6 @@ def cleaners(request):
         page_obj = paginator.page(paginator.num_pages)
 
     return render(request, 'dispenser/cleaners.html', {'page_obj': page_obj})
-
-'''
-def get_cleaner_data(request, cleaner_id):
-    from django.http import JsonResponse
-    from .models import Cleaner
-    print("Requested Cleaner ID:", cleaner_id)  # For debugging
-
-    try:
-        cleaner = Cleaner.objects.get(Cleaner_ID=cleaner_id)
-        data = {
-            "Cleaner_ID": cleaner.Cleaner_ID,
-            "Firstname": cleaner.Firstname,
-            "Surname": cleaner.Surname,
-            "DOB": cleaner.DOB.strftime('%d/%m/%Y'),  # UK date format
-            "Address": cleaner.Address,
-            "Email": cleaner.Email,
-            "Phone_Number": cleaner.Phone_Number,
-            "Salary": cleaner.Salary,
-            "Hire_Date": cleaner.Hire_Date.strftime('%d/%m/%Y'),  # UK date format
-            "Staff_Manager": cleaner.Staff_Manager,
-        }
-        return JsonResponse(data)
-    except Cleaner.DoesNotExist:
-        return JsonResponse({"error": "Cleaner not found"}, status=404)
-'''
 
 def get_cleaner_data(request, cleaner_id):
     with connection.cursor() as cursor:
@@ -154,14 +128,14 @@ def get_cleaner_data(request, cleaner_id):
         return JsonResponse(data)
     else:
         return JsonResponse({"error": "Cleaner not found"}, status=404)
-
-
+        
+# Supervisor handling...
 def supervisors(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM SUPERVISOR")
-        cursupervisor = cursor.fetchall()
+        curcleaner = cursor.fetchall()
 
-        paginator = Paginator(cursupervisor, 10)
+        paginator = Paginator(curcleaner, 10)
     page_number = request.GET.get('page', 1)
 
     try:
@@ -200,5 +174,4 @@ def get_supervisor_data(request, supervisor_id):
         }
         return JsonResponse(data)
     else:
-        return JsonResponse({"error": "Cleaner not found"}, status=404)
-
+        return JsonResponse({"error": "Supervisor not found"}, status=404)
