@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supervisors</title>
+  {% load static %}
+  <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<!--
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,43 +26,49 @@
     <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+-->
 <body>
 
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'home' %}">
-                    <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
-                </a>
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
+  <!-- Navigation Bar -->
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+   <div class="container">
+       <div class="navbar-brand">
+           <a class="navbar-item" href="{% url 'home' %}">
+               <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
+           </a>
+           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+               <span aria-hidden="true"></span>
+               <span aria-hidden="true"></span>
+               <span aria-hidden="true"></span>
+           </a>
+       </div>
+       <div id="navbarMenu" class="navbar-menu">
+           <div class="navbar-end">
+               <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
+               <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
+               <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
+               <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
+               <!-- Staff Dropdown -->
+               <div class="navbar-item has-dropdown is-hoverable">
+                   <a class="navbar-link">Staff</a>
+                   <div class="navbar-dropdown">
+                       <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
+                       <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</nav>
 
-            <div id="navbarMenu" class="navbar-menu">
-                <div class="navbar-end">
-                    <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
-                    <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
-                    <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
-                    <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
-                    <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
-                    <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <section class="section">
-        <div class="container">
-                    </div>
-                    <div class="message-body">
-                            <h1 class="title">Cleaners Management</h1>
-                    </div>
-            </div>
-        </div>
-    </section>
+  <!-- Page Header -->
+  <section class="section">
+    <div class="container">
+      <div class="message-body">
+        <h1 class="title">Cleaners Management</h1>
+      </div>
+    </div>
+  </section>
 
     <section class="section">
         <div class="container">
@@ -128,64 +149,95 @@
         });
     </script>
 
-    <!-- Bootstrap Modal -->
-    <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title">Cleaner Details</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <div id="cleaner-details">
-                  <!-- Details will be dynamically injected here -->
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+ <!-- Bootstrap Modal (No Backdrop) -->
+ <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h3 class="modal-title">Cleaner Details</h3>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <div id="cleaner-details">
+           <!-- Cleaner details will be dynamically injected here -->
          </div>
-      </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       </div>
+     </div>
    </div>
+ </div>
 
-   <!-- Bootstrap & AJAX Script -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   <script>
-      $(document).ready(function() {
-         $(".view-cleaner-btn").click(function() {
-            let cleanerId = $(this).data("cleaner");
-            let modal = new bootstrap.Modal(document.getElementById("cleanerDetailsModal"));
+<!-- Bootstrap & AJAX Script -->
+<script>
+  $(document).ready(function () {
+    // Open modal and load cleaner data
+    $(".view-cleaner-btn").click(function () {
+      let cleanerId = $(this).data("cleaner");
+      let modalElement = document.getElementById("cleanerDetailsModal");
 
-            // Show loading state
-            $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
-
-            // Fetch cleaner data via AJAX
-            $.ajax({
-               url: "/get_cleaner_data/" + cleanerId + "/", // Define your endpoint in Django
-               method: "GET",
-               success: function(data) {
-                  // Dynamically build cleaner details layout
-                  let detailsHtml = `
-                     <p><strong>ID:</strong> ${data.Cleaner_ID}</p>
-                     <p><strong>Firstname:</strong> ${data.Firstname}</p>
-                     <p><strong>Surname:</strong> ${data.Surname}</p>
-                     <p><strong>Date of Birth:</strong> ${data.DOB}</p>
-                     <p><strong>Address:</strong> ${data.Address}</p>
-                     <p><strong>Email:</strong> ${data.Email}</p>
-                     <p><strong>Phone Number:</strong> ${data.Phone_Number}</p>
-                     <p><strong>Salary:</strong> ${data.Salary}</p>
-                     <p><strong>Hire Date:</strong> ${data.Hire_Date}</p>
-                     <p><strong>Staff Manager:</strong> ${data.Staff_Manager}</p>`;
-                  $("#cleaner-details").html(detailsHtml);
-               },
-               error: function() {
-                  $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
-               }
-            });
-            modal.show();
-         });
+      // Create a new modal instance with backdrop disabled
+      let modalInstance = new bootstrap.Modal(modalElement, {
+        backdrop: false, // Remove backdrop entirely
+        keyboard: true   // Allow closing with Esc key
       });
-   </script>
 
+      // Show loading state before data loads
+      $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
+
+      // Fetch cleaner data via AJAX
+      $.ajax({
+        url: "/get_cleaner_data/" + cleanerId + "/",
+        method: "GET",
+        success: function (data) {
+          let detailsHtml = `
+            <p><strong>ID:</strong> ${data.Cleaner_ID}</p>
+            <p><strong>Firstname:</strong> ${data.Firstname}</p>
+            <p><strong>Surname:</strong> ${data.Surname}</p>
+            <p><strong>Date of Birth:</strong> ${data.DOB}</p>
+            <p><strong>Address:</strong> ${data.Address}</p>
+            <p><strong>Email:</strong> ${data.Email}</p>
+            <p><strong>Phone Number:</strong> ${data.Phone_Number}</p>
+            <p><strong>Salary:</strong> ${data.Salary}</p>
+            <p><strong>Hire Date:</strong> ${data.Hire_Date}</p>
+            <p><strong>Staff Manager:</strong> ${data.Staff_Manager}</p>`;
+          $("#cleaner-details").html(detailsHtml);
+        },
+        error: function () {
+          $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
+        }
+      });
+
+      // Show the modal
+      modalInstance.show();
+
+      // Close the modal if clicking outside the modal-dialog area
+      $(document).on('click.modalClose', function (e) {
+        if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#cleanerDetailsModal').length) {
+          modalInstance.hide();
+          $(document).off('click.modalClose'); // Remove this handler after closing
+        }
+      });
+
+      // Also close the modal if Esc is pressed (keyboard: true already handles this)
+      $(document).on('keydown.modalClose', function (e) {
+        if (e.key === "Escape") {
+          modalInstance.hide();
+          $(document).off('keydown.modalClose'); // Remove this handler after closing
+        }
+      });
+
+      // Clean up any lingering event handlers on modal hide
+      $('#cleanerDetailsModal').on('hidden.bs.modal', function () {
+        $(document).off('click.modalClose');
+        $(document).off('keydown.modalClose');
+        $("body").removeClass("modal-open"); // Reset body scroll
+      });
+    });
+  });
+</script>
+ <!-- Bootstrap JS -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
