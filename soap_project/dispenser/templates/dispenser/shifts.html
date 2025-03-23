@@ -11,42 +11,46 @@
 </head>
 <body>
 
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'home' %}">
-                    <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
-                </a>
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
+  <!-- Navigation Bar -->
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+   <div class="container">
+       <div class="navbar-brand">
+           <a class="navbar-item" href="{% url 'home' %}">
+               <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
+           </a>
+           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+               <span aria-hidden="true"></span>
+               <span aria-hidden="true"></span>
+               <span aria-hidden="true"></span>
+           </a>
+       </div>
+       <div id="navbarMenu" class="navbar-menu">
+           <div class="navbar-end">
+               <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
+               <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
+               <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
+               <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
+               <!-- Staff Dropdown -->
+               <div class="navbar-item has-dropdown is-hoverable">
+                   <a class="navbar-link">Staff</a>
+                   <div class="navbar-dropdown">
+                       <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
+                       <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</nav>
 
-            <div id="navbarMenu" class="navbar-menu">
-                <div class="navbar-end">
-                    <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
-                    <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
-                    <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
-                    <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
-                    <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
-                    <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <section class="section">
-        <div class="container">
-                    </div>
-                    <div class="message-body">
-                            <h1 class="title">Shift Management</h1>
-                    </div>
-            </div>
-        </div>
-    </section>
+  <!-- Page Header -->
+  <section class="section">
+    <div class="container">
+      <div class="message-body">
+        <h1 class="title">Shifts Management</h1>
+      </div>
+    </div>
+  </section>
 
     <section class="section">
         <div class="container">
