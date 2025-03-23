@@ -5,6 +5,20 @@
 }
 
 .modal-content {
-   background-color: #3088e0;
+   background-color: #5b9bdb;
    border-radius: 12px;
+}
+
+/* Make the modal title bold and white */
+.modal-header .modal-title {
+   font-weight: bold;
+   color: white;
+}
+
+.modal-backdrop {
+   z-index: 1040 !important; /* Ensures it doesn't block interactions */
+}
+
+.modal {
+   z-index: 1050 !important; /* Ensures modal is on top of the backdrop */
 }
