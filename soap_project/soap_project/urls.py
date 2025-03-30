@@ -17,13 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include, path
-from dispenser.views import home, shifts, stock, sites, dispenser_resolved, get_collection_data, cleaners, get_cleaner_data, supervisors, get_supervisor_data
+from dispenser.views import home, shifts, stock, sites, dispenser_resolved, get_collection_data, cleaners, get_cleaner_data, supervisors, get_supervisor_data, restock, get_restock_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('shifts/', shifts, name='shifts'),
     path('stock/', stock, name='stock'),
+    path('restock', restock, name='restock'),
+    path('get_restock_data/<str:company>/', get_restock_data, name='get_restock_data'),
     path('sites/', sites, name='sites'),
     path('cleaners/', cleaners, name='cleaners'),
     path('dispenserlist/', dispenser_resolved, name='dispenser_resolved'),
