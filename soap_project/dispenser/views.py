@@ -102,40 +102,77 @@ def cleaners(request):
     return render(request, 'dispenser/cleaners.html', {'page_obj': page_obj})
 
 def get_cleaner_data(request, cleaner_id):
-    with connection.cursor() as cursor:
-        # Use parameterized query to prevent SQL injection
-        cursor.execute("SELECT * FROM CLEANER WHERE Cleaner_ID = %s", [cleaner_id])
-        row = cursor.fetchone()
+   with connection.cursor() as cursor:
+      cursor.execute("SELECT * FROM CLEANER WHERE Cleaner_ID = %s", [cleaner_id])
+      row = cursor.fetchone()
+   print("Requested Cleaner ID:", cleaner_id)
+   print("Fetched Row:", row)
+   if row:
+      # Map the raw tuple to a dictionary
+      data = {
+         "Cleaner_ID": row[0],
+         "Firstname": row[1],
+         "Surname": row[2],
+         "DOB": row[3].strftime('%d/%m/%Y') if row[3] else "N/A",
+         "Address": row[4],
+         "Email": row[5],
+         "Phone_Number": row[6],
+         "Salary": row[7],
+         "Hire_Date": row[8].strftime('%d/%m/%Y') if row[8] else "N/A",
+         "Staff_Manager": row[9],
+      }
+      return JsonResponse(data)
+   else:
+      return JsonResponse({"error": "Cleaner not found"}, status=404)
 
-    # Debugging to see if data was fetched
-    print("Requested Cleaner ID:", cleaner_id)
-    print("Fetched Row:", row)
-
-    if row:
-        # Map the raw tuple to a dictionary
-        data = {
-            "Cleaner_ID": row[0],         # Index 0 corresponds to Cleaner_ID
-            "Firstname": row[1],          # Index 1 corresponds to Firstname
-            "Surname": row[2],            # Index 2 corresponds to Surname
-            "DOB": row[3].strftime('%d/%m/%Y') if row[3] else "N/A",
-            "Address": row[4],
-            "Email": row[5],
-            "Phone_Number": row[6],
-            "Salary": row[7],
-            "Hire_Date": row[8].strftime('%d/%m/%Y') if row[8] else "N/A",
-            "Staff_Manager": row[9],
-        }
-        return JsonResponse(data)
-    else:
-        return JsonResponse({"error": "Cleaner not found"}, status=404)
-        
 # Supervisor handling...
 def supervisors(request):
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM SUPERVISOR")
-        curcleaner = cursor.fetchall()
+   with connection.cursor() as cursor:
+      cursor.execute("SELECT * FROM SUPERVISOR")
+      cursupervisor = cursor.fetchall()
 
-        paginator = Paginator(curcleaner, 10)
+      paginator = Paginator(cursupervisor, 10)
+   page_number = request.GET.get('page', 1)
+
+   try:
+      page_obj = paginator.page(page_number)
+   except PageNotAnInteger:
+      page_obj = paginator.page(1)
+   except EmptyPage:
+      page_obj = paginator.page(paginator.num_pages)
+
+   return render(request, 'dispenser/supervisors.html', {'page_obj': page_obj})
+
+
+def get_supervisor_data(request, supervisor_id):
+   with connection.cursor() as cursor:
+      cursor.execute("SELECT * FROM SUPERVISOR WHERE Supervisor_ID = %s", [supervisor_id])
+      row = cursor.fetchone()
+   print("Requested Supervisor ID:", supervisor_id)
+   print("Fetched Row:", row)
+   if row:
+      # Map the raw tuple to a dictionary
+      data = {
+         "Supervisor_ID": row[0],
+         "Firstname": row[1],
+         "Surname": row[2],
+         "DOB": row[3].strftime('%d/%m/%Y') if row[3] else "N/A",
+         "Address": row[4],
+         "Email": row[5],
+         "Phone_Number": row[6],
+         "Salary": row[7],
+         "Hire_Date": row[8].strftime('%d/%m/%Y') if row[8] else "N/A",
+         "Staff_Manager": row[9],
+      }
+      return JsonResponse(data)
+   else:
+      return JsonResponse({"error": "Supervisor not found"}, status=404)
+
+def restock(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM vwRestockByCompanyTotal")
+        currestock = cursor.fetchall()
+        paginator = Paginator(currestock, 10)
     page_number = request.GET.get('page', 1)
 
     try:
@@ -145,33 +182,21 @@ def supervisors(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-    return render(request, 'dispenser/supervisors.html', {'page_obj': page_obj})
+    return render(request, 'dispenser/stock.html', {'page_obj': page_obj})
 
+def get_restock_data(request, company):
+   with connection.cursor() as cursor:
+      cursor.execute("SELECT Restock_ID, Soap_Amount_Bought, Soap_Price, Sanitizer_Amount_Bought, Sanitizer_Price, Total, Delivery_Date FROM RESTOCK WHERE Company = %s ORDER BY Delivery_Date", [company])
+      restock_data = cursor.fetchall()
 
-def get_supervisor_data(request, supervisor_id):
-    with connection.cursor() as cursor:
-        # Use parameterized query to prevent SQL injection
-        cursor.execute("SELECT * FROM SUPERVISOR WHERE Supervisor_ID = %s", [supervisor_id])
-        row = cursor.fetchone()
-
-    # Debugging to see if data was fetched
-    print("Requested Supervisor ID:", supervisor_id)
-    print("Fetched Row:", row)
-
-    if row:
-        # Map the raw tuple to a dictionary
-        data = {
-            "Supervisor_ID": row[0],         # Index 0 corresponds to Supervisor_ID
-            "Firstname": row[1],          # Index 1 corresponds to Firstname
-            "Surname": row[2],            # Index 2 corresponds to Surname
-            "DOB": row[3].strftime('%d/%m/%Y') if row[3] else "N/A",
-            "Address": row[4],
-            "Email": row[5],
-            "Phone_Number": row[6],
-            "Salary": row[7],
-            "Hire_Date": row[8].strftime('%d/%m/%Y') if row[8] else "N/A",
-            "Staff_Manager": row[9],
-        }
-        return JsonResponse(data)
-    else:
-        return JsonResponse({"error": "Supervisor not found"}, status=404)
+   restock_list = [
+      {"Restock_ID": row[0],
+         "Soap_Amount_Bought": row[1],
+         "Soap_Price": row[2],
+         "Sanitizer_Amount_Bought": row[3],
+         "Sanitizer_Price": row[4],
+         "Total": row[5],
+         "Delivery_Date": row[6].strftime('%d/%m/%Y') if row[6] else "N/A"}
+      for row in restock_data
+   ]
+   return JsonResponse(restock_list, safe=False)
