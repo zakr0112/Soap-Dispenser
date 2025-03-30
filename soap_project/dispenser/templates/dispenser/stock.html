@@ -1,192 +1,209 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock</title>
-    {% load static %}
-    <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Restock History</title>
+   {% load static %}
+   <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+   <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-   <div class="container">
-       <div class="navbar-brand">
-           <a class="navbar-item" href="{% url 'home' %}">
+   <!-- Navigation Bar -->
+   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="container">
+         <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
                <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
-           </a>
-           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
-           </a>
-       </div>
-       <div id="navbarMenu" class="navbar-menu">
-           <div class="navbar-end">
+            </a>
+         </div>
+         <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
                <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
-               <a class="navbar-item" href="{% url 'stock' %}">Stock</a>
+               <a class="navbar-item" href="{% url 'restock' %}">Stock</a>
                <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
                <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
                <!-- Staff Dropdown -->
                <div class="navbar-item has-dropdown is-hoverable">
-                   <a class="navbar-link">Staff</a>
-                   <div class="navbar-dropdown">
-                       <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
-                       <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
-                   </div>
+                  <a class="navbar-link">Staff</a>
+                  <div class="navbar-dropdown">
+                     <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
+                     <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
+                  </div>
                </div>
-           </div>
-       </div>
-   </div>
-</nav>
-
-  <!-- Page Header -->
-  <section class="section">
-    <div class="container">
-      <div class="message-body">
-        <h1 class="title">Stock Management</h1>
+            </div>
+         </div>
       </div>
-    </div>
-  </section>
+   </nav>
 
-    <!-- Restock Companies Section -->
-    <section class="section">
-        <div class="container">
-            <div class="box">
-                <article class="message">
-                    <div class="message-header">
-                        <p>[TABLE: company, restock_ids]</p>
-                    </div>
-                    <div class="message-body">
-                        <h1 class="title">Restock Companies</h1>
-                        <table class="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <th>Company</th>
-                                    <th>Restock IDs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for company, restock_ids in companies_dict.items %}
-                                <tr>
-                                    <td>{{ company }}</td>
-                                    <td>
-                                        {% for restock_id in restock_ids %}
-                                            <div>{{ restock_id }}</div>
-                                        {% empty %}
-                                            <div>No Restock IDs</div>
-                                        {% endfor %}
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="2">No data available</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
+   <!-- Page Header -->
+   <section class="section">
+      <div class="container">
+         <div class="message-body">
+            <h1 class="title">Stock Management</h1>
+         </div>
+      </div>
+   </section>
+
+   <!-- Restock Companies Section -->
+   <section class="section">
+      <div class="container">
+         <div class="box">
+               <article class="message">
+                  <div class="message-header">
+                     <h3>Restock Information</h3>
+                  </div>
+                  <div class="message-body">
+                     <table class="table is-striped is-fullwidth">
+                           <thead>
+                              <tr>
+                                 <th>Company</th>
+                                 <th>Soap</th>
+                                 <th>Soap Cost &pound;</th>
+                                 <th>Sanitizer</th>
+                                 <th>Sanitizer Cost &pound;</th>
+                                 <th>Total Cost &pound;</th>
+                                 <th>Options</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           {% for RESTOCK in page_obj %}
+                           <tr>
+                              <td>{{ RESTOCK.0 }}</td>
+                              <td class="text-center">{{ RESTOCK.1 }}</td>
+                              <td class="text-center">{{ RESTOCK.2|floatformat:2 }}</td>
+                              <td class="text-center">{{ RESTOCK.3 }}</td>
+                              <td class="text-center">{{ RESTOCK.4|floatformat:2 }}</td>
+                              <td class="text-center">{{ RESTOCK.5|floatformat:2 }}</td>
+                              <td>
+                                 <button class="btn btn-small btn-primary view-restock-btn" data-restock="{{ RESTOCK.0 }}">
+                                    History
+                                 </button>
+                              </td>
+                           </tr>
+                           {% empty %}
+                           <tr>
+                              <td colspan="5">No data available</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                     <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                        <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                        <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                              {% if page_obj.has_previous %}
+                                 <a class="button is-info has-text-white" href="?page=1">First</a>
+                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                              {% else %}
+                                 <a class="button" disabled>First</a>
+                                 <a class="button" disabled>Previous</a>
+                              {% endif %}
+                              {% if page_obj.has_next %}
+                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                 <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                              {% else %}
+                                 <a class="button" disabled>Next</a>
+                                 <a class="button" disabled>Last</a>
+                              {% endif %}
+                        </nav>
+                     </div><!-- pagination -->
+                  </div><!-- message-body -->
+               </article>
+         </div><!-- box -->
+      </div>
+   </section>
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const burger = document.querySelector('.navbar-burger');
+         const menu = document.querySelector('#navbarMenu');
+         if (burger && menu) {
+            burger.addEventListener('click', () => {
+               burger.classList.toggle('is-active');
+               menu.classList.toggle('is-active');
+            });
+         }
+      });
+   </script>
+
+   <!-- Bootstrap Modal (No Backdrop) -->
+   <div class="modal fade" id="restockDetailsModal" tabindex="-1" aria-labelledby="restockDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h3 class="modal-title">Restock History Details</h3>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </section>
-
-    <!-- Stock Purchases Section -->
-    <section class="section">
-        <div class="container">
-            <div class="box">
-                <article class="message">
-                    <div class="message-header">
-                        <p>[TABLE: RESTOCK]</p>
-                    </div>
-                    <div class="message-body">
-                        <h1 class="title">Stock Purchases</h1>
-                        <table class="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <th>Restock ID</th>
-                                    <th>Soap Amount</th>
-                                    <th>Sanitizer Amount</th>
-                                    <th>Soap Price</th>
-                                    <th>Sanitizer Price</th>
-                                    <th>Total</th>
-                                    <th>Delivery Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for RESTOCK in dispensers %}
-                                <tr>
-                                    <td>{{ RESTOCK.0 }}</td>
-                                    <td>{{ RESTOCK.2 }}</td>
-                                    <td>{{ RESTOCK.3 }}</td>
-                                    <td>{{ RESTOCK.4 }}</td>
-                                    <td>{{ RESTOCK.5 }}</td>
-                                    <td>{{ RESTOCK.6 }}</td>
-                                    <td>{{ RESTOCK.8|date:"d/m/Y" }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="7">No data available</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
+            <div class="modal-body">
+               <table class="table table-striped">
+                  <thead>
+                     <tr>
+                        <th>Delivery Date</th>
+                        <th>Soap Amount</th>
+                        <th>Soap Price</th>
+                        <th>Sanitizer Amount</th>
+                        <th>Sanitizer Price</th>
+                        <th>Total</th>
+                     </tr>
+                  </thead>
+                  <tbody id="restock-data">
+                     <!-- Data will be injected here -->
+                  </tbody>
+               </table>
             </div>
-        </div>
-    </section>
-
-    <!-- Stock Supervisor Section -->
-    <section class="section">
-        <div class="container">
-            <div class="box">
-                <article class="message">
-                    <div class="message-header">
-                        <p>[TABLE: RESTOCK]</p>
-                    </div>
-                    <div class="message-body">
-                        <h1 class="title">Stock Supervisor</h1>
-                        <table class="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <th>Restock ID</th>
-                                    <th>Supervisor ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for RESTOCK in dispensers %}
-                                <tr>
-                                    <td>{{ RESTOCK.0 }}</td>
-                                    <td>{{ RESTOCK.1 }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="2">No data available</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
-        </div>
-    </section>
+         </div>
+      </div>
+   </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const burger = document.querySelector('.navbar-burger');
-            const menu = document.querySelector('#navbarMenu');
-            if (burger && menu) {
-                burger.addEventListener('click', () => {
-                    burger.classList.toggle('is-active');
-                    menu.classList.toggle('is-active');
-                });
-            }
-        });
-    </script>
+   <!-- Bootstrap & AJAX Script -->
+   <script>
+      $(document).ready(function() {
+          $(".view-restock-btn").click(function() {
+            let restockId = $(this).data("restock");
+            let modal = new bootstrap.Modal(document.getElementById("restockModal"));
+            $("#restockModalLabel").text(`Restock History for ${restockId}`);
+            $("#restock-data").html("<tr><td colspan='6' class='text-center'>Loading...</td></tr>");  // Show loading state
+            // Fetch restock data via AJAX
+            $.ajax({
+               url: "/get_restock_data/" + restockId + "/",
+               method: "GET",
+               success: function(data) {
+                     let tableRows = "";
+                     if (data.length > 0) {
+                        data.forEach(function(row) {
+                           tableRows += `<tr>
+                                 <td>${row.Delivery_Date}</td>
+                                 <td>${row.Soap_Amount_Bought}</td>
+                                 <td>${row.Soap_Price}</td>
+                                 <td>${row.Sanitizer_Amount_Bought}</td>
+                                 <td>${row.Sanitizer_Price}</td>
+                                 <td>${row.Total}</td>
+                           </tr>`;
+                        });
+                     } else {
+                        tableRows = "<tr><td colspan='6' class='text-center'>No data available</td></tr>";
+                     }
+                     $("#restock-data").html(tableRows);
+               },
+               error: function() {
+                  $("#restock-data").html("<tr><td colspan='6' class='text-center text-danger'>Error loading data</td></tr>");
+               }
+            });
+            modal.show();
+          });
+      });
+   </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
