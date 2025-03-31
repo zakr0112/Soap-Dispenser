@@ -1,107 +1,108 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifts</title>
-    {% load static %}
-    <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shifts</title>
+  {% load static %}
+  <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-   <div class="container">
-       <div class="navbar-brand">
-           <a class="navbar-item" href="{% url 'home' %}">
+   <!-- Navigation Bar -->
+   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="container">
+         <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
                <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
-           </a>
-           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
-           </a>
-       </div>
-       <div id="navbarMenu" class="navbar-menu">
-           <div class="navbar-end">
+            </a>
+         </div>
+         <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
                <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
                <a class="navbar-item" href="{% url 'restock' %}">Stock</a>
                <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
                <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
                <!-- Staff Dropdown -->
                <div class="navbar-item has-dropdown is-hoverable">
-                   <a class="navbar-link">Staff</a>
-                   <div class="navbar-dropdown">
-                       <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
-                       <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
-                   </div>
+                  <a class="navbar-link">Staff</a>
+                  <div class="navbar-dropdown">
+                     <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
+                     <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
+                  </div>
                </div>
-           </div>
-       </div>
-   </div>
-</nav>
-
-  <!-- Page Header -->
-  <section class="section">
-    <div class="container">
-      <div class="message-body">
-        <h1 class="title">Shifts Management</h1>
-      </div>
-    </div>
-  </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="box">
-                <article class="message">
-                    <div class="message-header">
-                        <p>[TABLE: SHIFT]</p>
-                    </div>
-                    <div class="message-body">
-                        <table class="table is-striped is-fullwidth">
-                            <h1 class="title">Shifts</h1>
-                            <thead>
-                                <tr>
-                                    <th>Shift ID</th>
-                                    <th>Cleaner ID</th>
-                                    <th>Start Time</th>
-                                    <th>Finish Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for SHIFT in dispensers %}
-                                <tr>
-                                    <td>{{ SHIFT.0 }}</td>
-                                    <td>{{ SHIFT.1 }}</td>
-                                    <td>{{ SHIFT.2 }}</td>
-                                    <td>{{ SHIFT.3 }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4">No data available</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
             </div>
-        </div>
-    </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const burger = document.querySelector('.navbar-burger');
-            const menu = document.querySelector('#navbarMenu');
-            if (burger && menu) {
-                burger.addEventListener('click', () => {
-                    burger.classList.toggle('is-active');
-                    menu.classList.toggle('is-active');
-                });
-            }
-        });
-    </script>
+         </div>
+      </div>
+   </nav>
+   <!-- Page Header -->
+   <section class="section">
+      <div class="container">
+         <div class="message-body">
+            <h1 class="title">Shifts Management</h1>
+         </div>
+      </div>
+   </section>
+   <section class="section">
+      <div class="container">
+         <div class="box">
+            <article class="message">
+               <div class="message-header">
+                  <p>[TABLE: SHIFT]</p>
+               </div>
+               <div class="message-body">
+                  <div class="table-responsive">
+                     <table class="table table-striped">
+                        <h1 class="title">Shifts</h1>
+                        <thead class="table-secondary">
+                           <tr>
+                              <th>Shift ID</th>
+                              <th>Cleaner ID</th>
+                              <th>Start Time</th>
+                              <th>Finish Time</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for SHIFT in dispensers %}
+                           <tr>
+                              <td>{{ SHIFT.0 }}</td>
+                              <td>{{ SHIFT.1 }}</td>
+                              <td>{{ SHIFT.2 }}</td>
+                              <td>{{ SHIFT.3 }}</td>
+                           </tr>
+                           {% empty %}
+                           <tr>
+                              <td colspan="4">No data available</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </article>
+         </div>
+      </div>
+   </section>
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const burger = document.querySelector('.navbar-burger');
+         const menu = document.querySelector('#navbarMenu');
+         if (burger && menu) {
+            burger.addEventListener('click', () => {
+               burger.classList.toggle('is-active');
+               menu.classList.toggle('is-active');
+            });
+         }
+      });
+   </script>
 </body>
 </html>
