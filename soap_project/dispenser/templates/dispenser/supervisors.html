@@ -14,222 +14,252 @@
 </head>
 <body>
 
-
-  <!-- Navigation Bar -->
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-   <div class="container">
-       <div class="navbar-brand">
-           <a class="navbar-item" href="{% url 'home' %}">
+   <!-- Navigation Bar -->
+   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="container">
+         <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
                <img src="{% static 'images/DispenserInc.png' %}" alt="Logo" style="max-height: 50px;">
-           </a>
-           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
                <span aria-hidden="true"></span>
-           </a>
-       </div>
-       <div id="navbarMenu" class="navbar-menu">
-           <div class="navbar-end">
+            </a>
+         </div>
+         <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
                <a class="navbar-item" href="{% url 'shifts' %}">Shifts</a>
                <a class="navbar-item" href="{% url 'restock' %}">Stock</a>
                <a class="navbar-item" href="{% url 'sites' %}">Sites</a>
                <a class="navbar-item" href="{% url 'dispenser_resolved' %}">Dispensers</a>
                <!-- Staff Dropdown -->
                <div class="navbar-item has-dropdown is-hoverable">
-                   <a class="navbar-link">Staff</a>
-                   <div class="navbar-dropdown">
-                       <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
-                       <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
-                   </div>
+                  <a class="navbar-link">Staff</a>
+                  <div class="navbar-dropdown">
+                     <a class="navbar-item" href="{% url 'cleaners' %}">Cleaners</a>
+                     <a class="navbar-item" href="{% url 'supervisors' %}">Supervisors</a>
+                  </div>
                </div>
-           </div>
-       </div>
-   </div>
-</nav>
-
-
-
-
-  <!-- Page Header -->
-  <section class="section">
-    <div class="container">
-      <div class="message-body">
-        <h1 class="title">Supervisors Management</h1>
-      </div>
-    </div>
-  </section>
-
-  <!-- Supervisors Table Section -->
-  <section class="section">
-    <div class="container">
-      <div class="box">
-        <article class="message">
-          <div class="message-header">
-            <h3>Supervisors Information</h3>
-          </div>
-          <div class="message-body">
-            <table class="table is-striped is-fullwidth is-compact is-responsive">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Surname</th>
-                  <th>Hire Date</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for SUPERVISORS in page_obj %}
-                <tr>
-                  <td>{{ SUPERVISORS.0 }}</td>
-                  <td>{{ SUPERVISORS.1 }}</td>
-                  <td>{{ SUPERVISORS.2 }}</td>
-                  <td>{{ SUPERVISORS.8|date:"d/m/Y" }}</td>
-                  <td>
-                    <button class="btn btn-small btn-primary view-supervisor-btn" data-supervisor="{{ SUPERVISORS.0 }}">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="5">No data available</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
-            <!-- Pagination Section -->
-            <div class="pagination-container"
-                 style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
-              <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-              <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
-                {% if page_obj.has_previous %}
-                <a class="button is-info has-text-white" href="?page=1">First</a>
-                <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% else %}
-                <a class="button" disabled>First</a>
-                <a class="button" disabled>Previous</a>
-                {% endif %}
-                {% if page_obj.has_next %}
-                <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
-                <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                {% else %}
-                <a class="button" disabled>Next</a>
-                <a class="button" disabled>Last</a>
-                {% endif %}
-              </nav>
             </div>
-          </div>
-        </article>
+         </div>
       </div>
-    </div>
-  </section>
+   </nav>
 
-  <!-- Navbar Toggle Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const burger = document.querySelector('.navbar-burger');
-      const menu = document.querySelector('#navbarMenu');
-      if (burger && menu) {
-        burger.addEventListener('click', () => {
-          burger.classList.toggle('is-active');
-          menu.classList.toggle('is-active');
-        });
-      }
-    });
-  </script>
-
-  <!-- Bootstrap Modal (No Backdrop) -->
-  <div class="modal fade" id="supervisorDetailsModal" tabindex="-1" aria-labelledby="supervisorDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">Supervisor Details</h3>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div id="supervisor-details">
-            <!-- Supervisor details will be dynamically injected here -->
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+   <!-- Page Header -->
+   <section class="section">
+      <div class="container">
+         <div class="message-body">
+            <h1 class="title">Supervisors Management</h1>
+         </div>
       </div>
-    </div>
-  </div>
+   </section>
 
-  <!-- Bootstrap & AJAX Script -->
-  <script>
-    $(document).ready(function () {
-      // Open modal and load supervisor data
-      $(".view-supervisor-btn").click(function () {
-        let supervisorId = $(this).data("supervisor");
-        let modalElement = document.getElementById("supervisorDetailsModal");
+   <!-- Supervisors Table Section -->
+   <section class="section">
+      <div class="container">
+         <div class="box">
+            <article class="message">
+               <div class="message-header">
+                  <h3>Supervisors Information</h3>
+               </div>
+               <div class="message-body">
+                  <div class="table-responsive"><!-- force bootstrap rather than bulma -->
+                     <table class="table table-striped table-hover">
+                        <thead class="table-secondary">
+                           <tr>
+                              <th>ID</th>
+                              <th>First name</th>
+                              <th>Surname</th>
+                              <th>Hire Date</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for SUPERVISORS in page_obj %}
+                           <tr>
+                              <td>{{ SUPERVISORS.0 }}</td>
+                              <td>{{ SUPERVISORS.1 }}</td>
+                              <td>{{ SUPERVISORS.2 }}</td>
+                              <td>{{ SUPERVISORS.8|date:"d/m/Y" }}</td>
+                              <td>
+                                 <button class="btn btn-small btn-primary view-supervisor-btn" data-supervisor="{{ SUPERVISORS.0 }}">
+                                    View
+                                 </button>
+                              </td>
+                           </tr>
+                           {% empty %}
+                           <tr>
+                              <td colspan="5">No data available</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                     <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                     <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                        {% if page_obj.has_previous %}
+                           <a class="button is-info has-text-white" href="?page=1">First</a>
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% else %}
+                           <a class="button" disabled>First</a>
+                           <a class="button" disabled>Previous</a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                           <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% else %}
+                           <a class="button" disabled>Next</a>
+                           <a class="button" disabled>Last</a>
+                        {% endif %}
+                     </nav>
+                  </div>
+               </div>
+            </article>
+         </div><!-- /box -->
+      </div>
+   </section>
 
-        // Create a new modal instance with backdrop disabled
-        let modalInstance = new bootstrap.Modal(modalElement, {
-          backdrop: false, // Remove backdrop entirely
-          keyboard: true   // Allow closing with Esc key
-        });
-
-        // Show loading state before data loads
-        $("#supervisor-details").html("<p class='text-center'>Loading...</p>");
-
-        // Fetch supervisor data via AJAX
-        $.ajax({
-          url: "/get_supervisor_data/" + supervisorId + "/",
-          method: "GET",
-          success: function (data) {
-            let detailsHtml = `
-              <p><strong>ID:</strong> ${data.Supervisor_ID}</p>
-              <p><strong>Firstname:</strong> ${data.Firstname}</p>
-              <p><strong>Surname:</strong> ${data.Surname}</p>
-              <p><strong>Date of Birth:</strong> ${data.DOB}</p>
-              <p><strong>Address:</strong> ${data.Address}</p>
-              <p><strong>Email:</strong> ${data.Email}</p>
-              <p><strong>Phone Number:</strong> ${data.Phone_Number}</p>
-              <p><strong>Salary:</strong> ${data.Salary}</p>
-              <p><strong>Hire Date:</strong> ${data.Hire_Date}</p>
-              <p><strong>Staff Manager:</strong> ${data.Staff_Manager}</p>`;
-            $("#supervisor-details").html(detailsHtml);
-          },
-          error: function () {
-            $("#supervisor-details").html("<p class='text-center text-danger'>Error loading supervisor details.</p>");
-          }
-        });
-
-        // Show the modal
-        modalInstance.show();
-
-        // Close the modal if clicking outside the modal-dialog area
-        $(document).on('click.modalClose', function (e) {
-          if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#supervisorDetailsModal').length) {
-            modalInstance.hide();
-            $(document).off('click.modalClose'); // Remove this handler after closing
-          }
-        });
-
-        // Also close the modal if Esc is pressed (keyboard: true already handles this)
-        $(document).on('keydown.modalClose', function (e) {
-          if (e.key === "Escape") {
-            modalInstance.hide();
-            $(document).off('keydown.modalClose'); // Remove this handler after closing
-          }
-        });
-
-        // Clean up any lingering event handlers on modal hide
-        $('#supervisorDetailsModal').on('hidden.bs.modal', function () {
-          $(document).off('click.modalClose');
-          $(document).off('keydown.modalClose');
-          $("body").removeClass("modal-open"); // Reset body scroll
-        });
+   <!-- Navbar Toggle Script -->
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const burger = document.querySelector('.navbar-burger');
+         const menu = document.querySelector('#navbarMenu');
+         if (burger && menu) {
+         burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+         });
+         }
       });
-    });
-  </script>
+   </script>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <!-- Bootstrap Modal (No Backdrop) -->
+   <div class="modal fade" id="supervisorDetailsModal" tabindex="-1" aria-labelledby="supervisorDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title fs-5" id="supervisorDetailsModalLabel">Supervisor Details</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div id="supervisor-details">
+                  <!-- Supervisor details will be dynamically injected here -->
+               </div>
+            </div>
+            <div class="modal-footer bg-secondary-subtle">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Bootstrap & AJAX Script -->
+   <script>
+      $(document).ready(function () {
+         // Open modal and load supervisor data
+         $(".view-supervisor-btn").click(function () {
+            let supervisorId = $(this).data("supervisor");
+            let modalElement = document.getElementById("supervisorDetailsModal");
+            $("#supervisorDetailsModalLabel").text(`Supervisor details for ${supervisorId}`);
+            let modalInstance = new bootstrap.Modal(modalElement, {
+               backdrop: false, // Remove backdrop entirely
+               keyboard: true   // Allow closing with Esc key
+            });
+            $("#supervisor-details").html("<p class='text-center'>Loading...</p>");
+            // Fetch supervisor data via AJAX
+            $.ajax({
+               url: "/get_supervisor_data/" + supervisorId + "/",
+               method: "GET",
+               success: function (data) {
+                  let detailsHtml = `
+                  <div class="container">
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Firstname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Firstname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Surname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Surname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Date of Birth</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.DOB}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Address</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Address}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Email</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Email}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Phone Number</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Phone_Number}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Salary &pound;</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Salary}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Hire Date</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Hire_Date}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Staff Manager</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Staff_Manager}</p>
+                        </div>
+                     </div>
+                  </div>`;
+                  $("#supervisor-details").html(detailsHtml);
+               },
+               error: function () {
+                  $("#supervisor-details").html("<p class='text-center text-danger'>Error loading supervisor details.</p>");
+               }
+            });
+            modalInstance.show();
+            // Close the modal if clicking outside the modal-dialog area
+            $(document).on('click.modalClose', function (e) {
+               if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#supervisorDetailsModal').length) {
+                  modalInstance.hide();
+                  $(document).off('click.modalClose'); // Remove this handler after closing
+               }
+            });
+            // Also close the modal if Esc is pressed (keyboard: true already handles this)
+            $(document).on('keydown.modalClose', function (e) {
+               if (e.key === "Escape") {
+                  modalInstance.hide();
+                  $(document).off('keydown.modalClose'); // Remove this handler after closing
+               }
+            });
+            // Clean up any lingering event handlers on modal hide
+            $('#supervisorDetailsModal').on('hidden.bs.modal', function () {
+               $(document).off('click.modalClose');
+               $(document).off('keydown.modalClose');
+               $("body").removeClass("modal-open"); // Reset body scroll
+            });
+         });
+      });
+   </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

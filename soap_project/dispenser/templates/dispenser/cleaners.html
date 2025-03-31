@@ -47,77 +47,76 @@
    </div>
 </nav>
 
-  <!-- Page Header -->
-  <section class="section">
-    <div class="container">
+   <!-- Page Header -->
+   <section class="section">
+      <div class="container">
       <div class="message-body">
-        <h1 class="title">Cleaners Management</h1>
+         <h1 class="title">Cleaners Management</h1>
       </div>
-    </div>
-  </section>
+      </div>
+   </section>
 
    <section class="section">
       <div class="container">
          <div class="box">
-               <article class="message">
-                  <div class="message-header">
-                     <h3>Cleaners Information</h3>
-                  </div>
-                  <div class="message-body">
-                     <table class="table is-striped is-fullwidth is-compact is-responsive">
-                           <thead>
-                              <tr>
-                                 <th>ID</th>
-                                 <th>First name</th>
-                                 <th>Surname</th>
-                                 <th>Hire Date</th>
-                                 <th>Details</th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              {% for CLEANERS in page_obj %}
-                              <tr>
-                                 <td>{{ CLEANERS.0 }}</td>
-                                 <td>{{ CLEANERS.1 }}</td>
-                                 <td>{{ CLEANERS.2 }}</td>
-                                 <td>{{ CLEANERS.8|date:"d/m/Y" }}</td>
-                                 <td>
-                                    <button class="btn btn-small btn-primary view-cleaner-btn" data-cleaner="{{ CLEANERS.0 }}">
-                                          View
-                                    </button>
-                                 </td>
-                              </tr>
-                              {% empty %}
-                              <tr>
-                                 <td colspan="5">No data available</td>
-                              </tr>
-                              {% endfor %}
-                           </tbody>
+            <article class="message">
+               <div class="message-header">
+                  <h3>Cleaners Information</h3>
+               </div>
+               <div class="message-body">
+                  <div class="table-responsive"><!-- force bootstrap rather than bulma -->
+                     <table class="table table-striped table-hover">
+                        <thead class="table-secondary">
+                           <tr>
+                              <th>ID</th>
+                              <th>First name</th>
+                              <th>Surname</th>
+                              <th>Hire Date</th>
+                              <th>Details</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for CLEANERS in page_obj %}
+                           <tr>
+                              <td>{{ CLEANERS.0 }}</td>
+                              <td>{{ CLEANERS.1 }}</td>
+                              <td>{{ CLEANERS.2 }}</td>
+                              <td>{{ CLEANERS.8|date:"d/m/Y" }}</td>
+                              <td>
+                                 <button class="btn btn-small btn-primary view-cleaner-btn" data-cleaner="{{ CLEANERS.0 }}">
+                                    View
+                                 </button>
+                              </td>
+                           </tr>
+                           {% empty %}
+                           <tr>
+                              <td colspan="5">No data available</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
                      </table>
-
-                     <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
-                        <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
-
-                        <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
-                              {% if page_obj.has_previous %}
-                                 <a class="button is-info has-text-white" href="?page=1">First</a>
-                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                              {% else %}
-                                 <a class="button" disabled>First</a>
-                                 <a class="button" disabled>Previous</a>
-                              {% endif %}
-
-                              {% if page_obj.has_next %}
-                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
-                                 <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                              {% else %}
-                                 <a class="button" disabled>Next</a>
-                                 <a class="button" disabled>Last</a>
-                              {% endif %}
-                        </nav>
-                     </div>
-                  </div>
-               </article>
+                  </div><!-- /table-repsonsive -->
+                  <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                     <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                     <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                        {% if page_obj.has_previous %}
+                           <a class="button is-info has-text-white" href="?page=1">First</a>
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% else %}
+                           <a class="button" disabled>First</a>
+                           <a class="button" disabled>Previous</a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                           <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% else %}
+                           <a class="button" disabled>Next</a>
+                           <a class="button" disabled>Last</a>
+                        {% endif %}
+                     </nav>
+                  </div><!-- pagination -->
+               </div><!-- message-body -->
+            </article>
          </div>
       </div>
    </section>
@@ -127,103 +126,140 @@
          const burger = document.querySelector('.navbar-burger');
          const menu = document.querySelector('#navbarMenu');
          if (burger && menu) {
-               burger.addEventListener('click', () => {
-                  burger.classList.toggle('is-active');
-                  menu.classList.toggle('is-active');
-               });
+            burger.addEventListener('click', () => {
+               burger.classList.toggle('is-active');
+               menu.classList.toggle('is-active');
+            });
          }
       });
    </script>
 
- <!-- Bootstrap Modal (No Backdrop) -->
- <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h3 class="modal-title">Cleaner Details</h3>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-       </div>
-       <div class="modal-body">
-         <div id="cleaner-details">
-           <!-- Cleaner details will be dynamically injected here -->
+   <!-- Bootstrap Modal (No Backdrop) -->
+   <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title fs-5" id="cleanerDetailsModalLabel">Cleaner Details</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div id="cleaner-details">
+               <!-- Cleaner details will be dynamically injected here -->
+               </div>
+            </div>
+            <div class="modal-footer bg-secondary-subtle">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
          </div>
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-       </div>
-     </div>
-   </div>
- </div>
+      </div>
+   </div><!-- bootstrap modal -->
 
-<!-- Bootstrap & AJAX Script -->
-<script>
-  $(document).ready(function () {
-    // Open modal and load cleaner data
-    $(".view-cleaner-btn").click(function () {
-      let cleanerId = $(this).data("cleaner");
-      let modalElement = document.getElementById("cleanerDetailsModal");
-
-      // Create a new modal instance with backdrop disabled
-      let modalInstance = new bootstrap.Modal(modalElement, {
-        backdrop: false, // Remove backdrop entirely
-        keyboard: true   // Allow closing with Esc key
+   <!-- Bootstrap & AJAX Script -->
+   <script>
+      $(document).ready(function () {
+         // Open modal and load cleaner data
+         $(".view-cleaner-btn").click(function () {
+            let cleanerId = $(this).data("cleaner");
+            let modalElement = document.getElementById("cleanerDetailsModal");
+            $("#cleanerDetailsModalLabel").text(`Cleaner details for ${cleanerId}`);
+            let modalInstance = new bootstrap.Modal(modalElement, {
+               backdrop: false, // Remove backdrop entirely
+               keyboard: true   // Allow closing with Esc key
+            });
+            $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
+            // Fetch cleaner data via AJAX
+            $.ajax({
+               url: "/get_cleaner_data/" + cleanerId + "/",
+               method: "GET",
+               success: function (data) {
+                  let detailsHtml = `
+                  <div class="container">
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Firstname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Firstname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Surname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Surname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Date of Birth</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.DOB}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Address</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Address}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Email</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Email}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Phone Number</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Phone_Number}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Salary &pound;</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Salary}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Hire Date</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Hire_Date}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Staff Manager</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Staff_Manager}</p>
+                        </div>
+                     </div>
+                  </div>`;
+                  $("#cleaner-details").html(detailsHtml);
+               },
+               error: function () {
+                  $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
+               }
+            });
+            modalInstance.show();
+            // Close the modal if clicking outside the modal-dialog area
+            $(document).on('click.modalClose', function (e) {
+               if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#cleanerDetailsModal').length) {
+                  modalInstance.hide();
+                  $(document).off('click.modalClose'); // Remove this handler after closing
+               }
+            });
+            // Also close the modal if Esc is pressed (keyboard: true already handles this)
+            $(document).on('keydown.modalClose', function (e) {
+               if (e.key === "Escape") {
+                  modalInstance.hide();
+                  $(document).off('keydown.modalClose'); // Remove this handler after closing
+               }
+            });
+            // Clean up any lingering event handlers on modal hide
+            $('#cleanerDetailsModal').on('hidden.bs.modal', function () {
+               $(document).off('click.modalClose');
+               $(document).off('keydown.modalClose');
+               $("body").removeClass("modal-open"); // Reset body scroll
+            });
+         });
       });
-
-      // Show loading state before data loads
-      $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
-
-      // Fetch cleaner data via AJAX
-      $.ajax({
-        url: "/get_cleaner_data/" + cleanerId + "/",
-        method: "GET",
-        success: function (data) {
-          let detailsHtml = `
-            <p><strong>ID:</strong> ${data.Cleaner_ID}</p>
-            <p><strong>Firstname:</strong> ${data.Firstname}</p>
-            <p><strong>Surname:</strong> ${data.Surname}</p>
-            <p><strong>Date of Birth:</strong> ${data.DOB}</p>
-            <p><strong>Address:</strong> ${data.Address}</p>
-            <p><strong>Email:</strong> ${data.Email}</p>
-            <p><strong>Phone Number:</strong> ${data.Phone_Number}</p>
-            <p><strong>Salary:</strong> ${data.Salary}</p>
-            <p><strong>Hire Date:</strong> ${data.Hire_Date}</p>
-            <p><strong>Staff Manager:</strong> ${data.Staff_Manager}</p>`;
-          $("#cleaner-details").html(detailsHtml);
-        },
-        error: function () {
-          $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
-        }
-      });
-
-      // Show the modal
-      modalInstance.show();
-
-      // Close the modal if clicking outside the modal-dialog area
-      $(document).on('click.modalClose', function (e) {
-        if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#cleanerDetailsModal').length) {
-          modalInstance.hide();
-          $(document).off('click.modalClose'); // Remove this handler after closing
-        }
-      });
-
-      // Also close the modal if Esc is pressed (keyboard: true already handles this)
-      $(document).on('keydown.modalClose', function (e) {
-        if (e.key === "Escape") {
-          modalInstance.hide();
-          $(document).off('keydown.modalClose'); // Remove this handler after closing
-        }
-      });
-
-      // Clean up any lingering event handlers on modal hide
-      $('#cleanerDetailsModal').on('hidden.bs.modal', function () {
-        $(document).off('click.modalClose');
-        $(document).off('keydown.modalClose');
-        $("body").removeClass("modal-open"); // Reset body scroll
-      });
-    });
-  });
-</script>
- <!-- Bootstrap JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   </script>
+   <!-- Bootstrap JS -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
