@@ -49,7 +49,7 @@
    <section class="section">
       <div class="container">
          <div class="message-body">
-            <h1 class="title">Stock Management</h1>
+            <h1 class="title">Restock Information</h1>
          </div>
       </div>
    </section>
@@ -58,24 +58,25 @@
    <section class="section">
       <div class="container">
          <div class="box">
-               <article class="message">
-                  <div class="message-header">
-                     <h3>Restock Information</h3>
-                  </div>
-                  <div class="message-body">
-                     <table class="table is-striped is-fullwidth">
-                           <thead>
-                              <tr>
-                                 <th>Company</th>
-                                 <th>Soap</th>
-                                 <th>Soap Cost &pound;</th>
-                                 <th>Sanitizer</th>
-                                 <th>Sanitizer Cost &pound;</th>
-                                 <th>Total Cost &pound;</th>
-                                 <th>Options</th>
-                              </tr>
-                           </thead>
-                           <tbody>
+            <article class="message">
+               <div class="message-header">
+                  <h5 class="is-size-5">Restock Information By Company</h5>
+               </div>
+               <div class="message-body">
+                  <div class="table-responsive"><!-- force bootstrap rather than bulma -->
+                     <table class="table table-striped table-hover table-sm">
+                        <thead class="table-secondary">
+                           <tr>
+                              <th>Company</th>
+                              <th>Soap (L)</th>
+                              <th>Soap Cost &pound;</th>
+                              <th>Sanitizer (L)</th>
+                              <th>Sanitizer Cost &pound;</th>
+                              <th>Total Cost &pound;</th>
+                              <th>Options</th>
+                           </tr>
+                        </thead>
+                        <tbody>
                            {% for RESTOCK in page_obj %}
                            <tr>
                               <td>{{ RESTOCK.0 }}</td>
@@ -97,27 +98,28 @@
                            {% endfor %}
                         </tbody>
                      </table>
-                     <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
-                        <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
-                        <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
-                              {% if page_obj.has_previous %}
-                                 <a class="button is-info has-text-white" href="?page=1">First</a>
-                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                              {% else %}
-                                 <a class="button" disabled>First</a>
-                                 <a class="button" disabled>Previous</a>
-                              {% endif %}
-                              {% if page_obj.has_next %}
-                                 <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
-                                 <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                              {% else %}
-                                 <a class="button" disabled>Next</a>
-                                 <a class="button" disabled>Last</a>
-                              {% endif %}
-                        </nav>
-                     </div><!-- pagination -->
-                  </div><!-- message-body -->
-               </article>
+                  </div>
+                  <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                     <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                     <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                        {% if page_obj.has_previous %}
+                           <a class="button is-info has-text-white" href="?page=1">First</a>
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% else %}
+                           <a class="button" disabled>First</a>
+                           <a class="button" disabled>Previous</a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                           <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% else %}
+                           <a class="button" disabled>Next</a>
+                           <a class="button" disabled>Last</a>
+                        {% endif %}
+                     </nav>
+                  </div><!-- pagination -->
+               </div><!-- message-body -->
+            </article>
          </div><!-- box -->
       </div>
    </section>
@@ -135,31 +137,36 @@
    </script>
 
    <!-- Bootstrap Modal (No Backdrop) -->
-   <div class="modal fade" id="restockDetailsModal" tabindex="-1" aria-labelledby="restockDetailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+   <div class="modal fade" id="restockModal" tabindex="-1" aria-labelledby="restockModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
-               <h3 class="modal-title">Restock History Details</h3>
+               <h5 class="modal-title fs-5" id="restockModalLabel">Restock History Details</h5><!-- this gets replaced in ajex -->
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-               <table class="table table-striped">
-                  <thead>
-                     <tr>
-                        <th>Delivery Date</th>
-                        <th>Soap Amount</th>
-                        <th>Soap Price</th>
-                        <th>Sanitizer Amount</th>
-                        <th>Sanitizer Price</th>
-                        <th>Total</th>
-                     </tr>
-                  </thead>
-                  <tbody id="restock-data">
-                     <!-- Data will be injected here -->
-                  </tbody>
-               </table>
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                     <thead>
+                        <tr class="table-secondary">
+                           <th>Delivery Date</th>
+                           <th>Soap Volume</th>
+                           <th>Soap Price &pound;</th>
+                           <th>Sanitizer Volume</th>
+                           <th>Sanitizer Price &pound;</th>
+                           <th>Total Price &pound;</th>
+                        </tr>
+                     </thead>
+                     <tbody id="restock-data">
+                        <!-- Restock History Data will be injected here -->
+                     </tbody>
+                     <tfoot>
+                        <!-- Sum will be inserted dynamically here -->
+                     </tfoot>
+                  </table>
+               </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-secondary-subtle">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
          </div>
@@ -169,7 +176,7 @@
    <!-- Bootstrap & AJAX Script -->
    <script>
       $(document).ready(function() {
-          $(".view-restock-btn").click(function() {
+         $(".view-restock-btn").click(function() {
             let restockId = $(this).data("restock");
             let modal = new bootstrap.Modal(document.getElementById("restockModal"));
             $("#restockModalLabel").text(`Restock History for ${restockId}`);
@@ -179,29 +186,40 @@
                url: "/get_restock_data/" + restockId + "/",
                method: "GET",
                success: function(data) {
-                     let tableRows = "";
-                     if (data.length > 0) {
-                        data.forEach(function(row) {
-                           tableRows += `<tr>
-                                 <td>${row.Delivery_Date}</td>
-                                 <td>${row.Soap_Amount_Bought}</td>
-                                 <td>${row.Soap_Price}</td>
-                                 <td>${row.Sanitizer_Amount_Bought}</td>
-                                 <td>${row.Sanitizer_Price}</td>
-                                 <td>${row.Total}</td>
-                           </tr>`;
-                        });
-                     } else {
-                        tableRows = "<tr><td colspan='6' class='text-center'>No data available</td></tr>";
-                     }
-                     $("#restock-data").html(tableRows);
+                  let tableRows = "";
+                  let totalSum = 0; // Initialise the sum of totals!
+                  if (data.length > 0) {
+                     data.forEach(function(row) {
+                        // convert total to float for addintion of sum
+                        let totalValue = parseFloat(row.Total) || 0;
+                        totalSum += totalValue;
+                        tableRows += `<tr>
+                           <td>${row.Delivery_Date}</td>
+                           <td>${row.Soap_Amount_Bought}</td>
+                           <td>${row.Soap_Price }</td>
+                           <td>${row.Sanitizer_Amount_Bought}</td>
+                           <td>${row.Sanitizer_Price}</td>
+                           <td>${row.Total}</td>
+                        </tr>`;
+                     });
+                     // Build footer with sum of totals
+                     let footerRow = `
+                        <tr>
+                           <td colspan="5" class="text-end"><strong>Total Price &pound;</strong></td>
+                           <td class="text-center"><strong>${totalSum.toFixed(2)}</strong></td>
+                        </tr>`;
+                     tableRows += footerRow; // ensure footer is added to the output!
+                  } else {
+                     tableRows = "<tr><td colspan='6' class='text-center'>No data available</td></tr>";
+                  }
+                  $("#restock-data").html(tableRows);
                },
                error: function() {
                   $("#restock-data").html("<tr><td colspan='6' class='text-center text-danger'>Error loading data</td></tr>");
                }
             });
             modal.show();
-          });
+         });
       });
    </script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
