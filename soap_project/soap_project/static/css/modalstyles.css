@@ -22,3 +22,39 @@
 .modal {
    z-index: 1050 !important; /* Ensures modal is on top of the backdrop */
 }
+
+/* Enhance modal form-like appearance */
+#supervisor-details .form-control-plaintext {
+   background-color: #f8f9fa;
+   border: 1px solid #e9ecef;
+   padding: 0.5rem;
+   border-radius: 4px;
+   font-size: 14px;
+}
+
+#supervisor-details .row {
+   margin-bottom: 8px;
+}
+
+#supervisor-details label {
+   font-weight: bold;
+   color: #333;
+}
+
+/* Improve modal appearance for cleaner details */
+#cleaner-details .form-control-plaintext {
+   background-color: #f8f9fa;
+   border: 1px solid #e9ecef;
+   padding: 0.5rem;
+   border-radius: 4px;
+   font-size: 14px;
+}
+
+#cleaner-details .row {
+   margin-bottom: 8px;
+}
+
+#cleaner-details label {
+   font-weight: bold;
+   color: #333;
+}
