@@ -136,7 +136,7 @@
 
    <!-- Bootstrap Modal -->
    <div class="modal fade" id="collectionModal" tabindex="-1" aria-labelledby="collectionModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable"><!-- add scrollbat incase a few entries! -->
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title fs-5" id="collectionModalLabel">Collection Data</h5><!-- Was missing id so it did't work! -->
@@ -144,11 +144,11 @@
             </div>
             <div class="modal-body">
                <div class="table-responsive">
-                  <table class="table table-striped table-hover">
+                  <table class="table table-hover">
                      <thead class="table-secondary">
                         <tr>
                            <th>Date Collected</th>
-                           <th>Liquid</th>
+                           <th>Collection Reading Status</th>
                         </tr>
                      </thead>
                      <tbody id="collection-data">
@@ -163,7 +163,6 @@
          </div>
       </div>
    </div><!-- end bootstrap modal -->
-
    <!-- Bootstrap & AJAX Script -->
    <script>
       $(document).ready(function() {
@@ -171,7 +170,7 @@
             let dispenserId = $(this).data("dispenser");
             let modal = new bootstrap.Modal(document.getElementById("collectionModal"));
             $("#collectionModalLabel").text(`Collection Data for Dispenser ${dispenserId}`);
-            $("#collection-data").html("<tr><td colspan='4' class='text-center'>Loading...</td></tr>");
+            $("#collection-data").html("<tr><td colspan='2' class='text-center'>Loading...</td></tr>");
             // Fetch collection data via AJAX
             $.ajax({
                url: "/get_collection_data/" + dispenserId + "/",
@@ -180,15 +179,19 @@
                   let tableRows = "";
                   if (data.length > 0) {
                      data.forEach(function(row) {
-                        tableRows += `<tr><td>${row.timedate}</td><td>${row.level}</td></tr>`;
+                        // broke down to make easier to debug and read!
+                        tableRows += `<tr>`;
+                        tableRows += `<td>${row.fmtDatetime}</td>`;
+                        tableRows += `<td>${row.liquidMl}<progress class="progress ${row.fillStatus}" value="${row.fillPercent}" max="100"></progress></td>`;
+                        tableRows += `</tr>`;
                      });
                   } else {
-                     tableRows = "<tr><td colspan='4' class='text-center'>No data available</td></tr>";
+                     tableRows = "<tr><td colspan='2' class='text-center'>No data available</td></tr>";
                   }
                   $("#collection-data").html(tableRows);
                },
                error: function() {
-                  $("#collection-data").html("<tr><td colspan='4' class='text-center text-danger'>Error loading data</td></tr>");
+                  $("#collection-data").html("<tr><td colspan='2' class='text-center text-danger'>Error loading data</td></tr>");
                }
             });
             modal.show();
