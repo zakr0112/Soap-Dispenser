@@ -25,7 +25,7 @@ def shifts(request):
    # 01/04/2025
    # Renamed curors for easier debugging
    with connection.cursor() as cursor:
-      cursor.execute("SELECT SHIFT_ID, Cleaner_ID, Start_Time, Finish_Time FROM SHIFT")
+      cursor.execute("SELECT * FROM vwSiteRotaShiftCleanerResolved")
       cur_shifts = cursor.fetchall()
 
    return render(request, 'dispenser/shifts.html', {'dispensers': cur_shifts})
