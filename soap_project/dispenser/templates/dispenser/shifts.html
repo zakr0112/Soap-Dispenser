@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shifts</title>
-  {% load static %}
-  <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js"></script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Shifts</title>
+   {% load static %}
+   <link rel="icon" type="image/x-icon" href="{% static 'images/DispenserInc.png' %}">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+   <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ </head>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-  <link rel="stylesheet" href="{% static 'css/modalstyles.css' %}">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+
 <body>
    <!-- Navigation Bar -->
    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -51,7 +50,7 @@
    <section class="section">
       <div class="container">
          <div class="message-body">
-            <h1 class="title">Shifts Management</h1>
+            <h1 class="title">Shifts Information</h1>
          </div>
       </div>
    </section>
@@ -65,31 +64,69 @@
                <div class="message-body">
                   <div class="table-responsive">
                      <table class="table table-striped">
-                        <h1 class="title">Shifts</h1>
                         <thead class="table-secondary">
                            <tr>
                               <th>Shift ID</th>
-                              <th>Cleaner ID</th>
                               <th>Start Time</th>
                               <th>Finish Time</th>
+                              <th>Overtime</th>
+                              <th>Unsocial Hours</th>
+                              <th>Cleaner</th>
+                              <th>Options</th>
                            </tr>
                         </thead>
                         <tbody>
-                           {% for SHIFT in dispensers %}
+                           <!--
+                           SHIFT.0 = shiftID,
+                           SHIFT.1 = shiftStarttime,
+                           SHIFT.2 = shiftFinishtime,
+                           SHIFT.3 = shiftOvertime,
+                           SHIFT.4 = shiftUnsocialhours,
+                           SHIFT.5 = cleanerFirstname,
+                           SHIFT.6 = cleanerSurname,
+                           SHIFT.7 = cleanerID
+                           -->
+                           {% for SHIFT in page_obj %}
                            <tr>
-                              <td>{{ SHIFT.10 }}</td>
-                              <td>{{ SHIFT.15 }}</td>
-                              <td>{{ SHIFT.11 }}</td>
-                              <td>{{ SHIFT.12 }}</td>
+                              <td>{{ SHIFT.0 }}</td>
+                              <td>{{ SHIFT.1 }}</td>
+                              <td>{{ SHIFT.2 }}</td>
+                              <td>{{ SHIFT.3 }}</td>
+                              <td>{{ SHIFT.4 }}</td>
+                              <td>{{ SHIFT.5 }} {{ SHIFT.6 }}</td>
+                              <td>
+                                 <button class="btn btn-small btn-primary view-cleaner-btn" data-shiftid="{{ SHIFT.0 }}" data-cleaner="{{ SHIFT.7 }}">
+                                    View
+                                 </button>
+                              </td>
                            </tr>
                            {% empty %}
                            <tr>
-                              <td colspan="4">No data available</td>
+                              <td colspan="7">No data available</td>
                            </tr>
                            {% endfor %}
                         </tbody>
                      </table>
                   </div>
+                  <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; background-color: #f5f5f5; padding: 10px; border-radius: 8px;">
+                     <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+                     <nav class="pagination" role="navigation" aria-label="pagination" style="display: flex; gap: 5px;">
+                        {% if page_obj.has_previous %}
+                           <a class="button is-info has-text-white" href="?page=1">First</a>
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% else %}
+                           <a class="button" disabled>First</a>
+                           <a class="button" disabled>Previous</a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                           <a class="button is-primary has-text-white" href="?page={{ page_obj.next_page_number }}">Next</a>
+                           <a class="button is-info has-text-white" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% else %}
+                           <a class="button" disabled>Next</a>
+                           <a class="button" disabled>Last</a>
+                        {% endif %}
+                     </nav>
+                  </div><!-- pagination -->
                </div>
             </article>
          </div>
@@ -107,5 +144,109 @@
          }
       });
    </script>
+   <!-- Bootstrap Modal Cleaner Details Form Based Popup -->
+   <div class="modal fade" id="cleanerDetailsModal" tabindex="-1" aria-labelledby="cleanerDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title fs-5" id="cleanerDetailsModalLabel">Cleaner Details</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div id="cleaner-details">
+               <!-- Cleaner details will be dynamically injected here -->
+               </div>
+            </div>
+            <div class="modal-footer bg-secondary-subtle">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div><!-- bootstrap modal -->
+   <!-- Bootstrap & AJAX Script Display modal popup of selected cleaner -->
+   <script>
+      $(document).ready(function() {
+         $(".view-cleaner-btn").click(function () {
+            let cleanerId = $(this).data("cleaner");
+            let shiftId = $(this).data("shiftid");
+            // 09/04/2025 replaced modalinstance with new modal as over complicated!
+            let modal = new bootstrap.Modal(document.getElementById("cleanerDetailsModal"));
+            $("#cleanerDetailsModalLabel").text(`Cleaner details for ${shiftId}`);
+            $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
+            // Fetch cleaner data via AJAX
+            $.ajax({
+               url: "/get_cleaner_data/" + cleanerId + "/",
+               method: "GET",
+               success: function (data) {
+                  let detailsHtml = `
+                  <div class="container">
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Firstname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Firstname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Surname</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Surname}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Date of Birth</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.DOB}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Address</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Address}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Email</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Email}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Phone Number</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Phone_Number}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Salary &pound;</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Salary}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Hire Date</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Hire_Date}</p>
+                        </div>
+                     </div>
+                     <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label"><strong>Staff Manager</strong></label>
+                        <div class="col-sm-8">
+                           <p class="form-control-plaintext">${data.Staff_Manager}</p>
+                        </div>
+                     </div>
+                  </div>`;
+                  $("#cleaner-details").html(detailsHtml);
+               },
+               error: function () {
+                  $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
+               }
+            });
+            modal.show();
+         });
+      });
+   </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
