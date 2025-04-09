@@ -160,12 +160,9 @@
          // Open modal and load cleaner data
          $(".view-cleaner-btn").click(function () {
             let cleanerId = $(this).data("cleaner");
-            let modalElement = document.getElementById("cleanerDetailsModal");
+            // 09/04/2025 replaced modalinstance with new modal as over complicated!
+            let modal = new bootstrap.Modal(document.getElementById("cleanerDetailsModal"));
             $("#cleanerDetailsModalLabel").text(`Cleaner details for ${cleanerId}`);
-            let modalInstance = new bootstrap.Modal(modalElement, {
-               backdrop: false, // Remove backdrop entirely
-               keyboard: true   // Allow closing with Esc key
-            });
             $("#cleaner-details").html("<p class='text-center'>Loading...</p>");
             // Fetch cleaner data via AJAX
             $.ajax({
@@ -235,27 +232,7 @@
                   $("#cleaner-details").html("<p class='text-center text-danger'>Error loading cleaner details.</p>");
                }
             });
-            modalInstance.show();
-            // Close the modal if clicking outside the modal-dialog area
-            $(document).on('click.modalClose', function (e) {
-               if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#cleanerDetailsModal').length) {
-                  modalInstance.hide();
-                  $(document).off('click.modalClose'); // Remove this handler after closing
-               }
-            });
-            // Also close the modal if Esc is pressed (keyboard: true already handles this)
-            $(document).on('keydown.modalClose', function (e) {
-               if (e.key === "Escape") {
-                  modalInstance.hide();
-                  $(document).off('keydown.modalClose'); // Remove this handler after closing
-               }
-            });
-            // Clean up any lingering event handlers on modal hide
-            $('#cleanerDetailsModal').on('hidden.bs.modal', function () {
-               $(document).off('click.modalClose');
-               $(document).off('keydown.modalClose');
-               $("body").removeClass("modal-open"); // Reset body scroll
-            });
+            modal.show();
          });
       });
    </script>
