@@ -10,26 +10,22 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def home(request):
    return render(request, 'dispenser/home.html')
 
-
-#def dispenser_list(request):
-   # 01/04/2025
-   # Renamed curors for easier debugging
-#   with connection.cursor() as cursor:
-#      cursor.execute("SELECT Dispenser_ID, Room_ID, Dis_Content, Level_Liquid FROM dispenser")
-#      cur_dispenser = cursor.fetchall()
-#
-#   return render(request, 'dispenser/DispenserList.html', {'dispensers': cur_dispenser})
-
-
 def shifts(request):
-   # 01/04/2025
-   # Renamed curors for easier debugging
+   # 01/04/2025 Renamed curors for easier debugging
+   # 09/04/2025 more specific select rather than everything also added pagination
    with connection.cursor() as cursor:
-      cursor.execute("SELECT * FROM vwSiteRotaShiftCleanerResolved")
+      cursor.execute("SELECT shiftID, shiftStarttime, shiftFinishtime, shiftOvertime, shiftUnsocialhours, cleanerFirstname, cleanerSurname, cleanerID FROM vwSiteRotaShiftCleanerResolved")
       cur_shifts = cursor.fetchall()
 
-   return render(request, 'dispenser/shifts.html', {'dispensers': cur_shifts})
-
+   paginator = Paginator(cur_shifts, 20)
+   page_number = request.GET.get('page', 1)
+   try:
+      page_obj = paginator.page(page_number)
+   except PageNotAnInteger:
+      page_obj = paginator.page(1)
+   except EmptyPage:
+      page_obj = paginator.page(paginator.num_pages)
+   return render(request, 'dispenser/shifts.html', {'page_obj': page_obj})
 
 def stock(request):
    # 01/04/2025
