@@ -161,12 +161,9 @@
          // Open modal and load supervisor data
          $(".view-supervisor-btn").click(function () {
             let supervisorId = $(this).data("supervisor");
-            let modalElement = document.getElementById("supervisorDetailsModal");
+            let modal = new bootstrap.Modal(document.getElementById("supervisorDetailsModal"));
+            // 09/04/2025 changed modalinstance to modal to make less code
             $("#supervisorDetailsModalLabel").text(`Supervisor details for ${supervisorId}`);
-            let modalInstance = new bootstrap.Modal(modalElement, {
-               backdrop: false, // Remove backdrop entirely
-               keyboard: true   // Allow closing with Esc key
-            });
             $("#supervisor-details").html("<p class='text-center'>Loading...</p>");
             // Fetch supervisor data via AJAX
             $.ajax({
@@ -236,27 +233,7 @@
                   $("#supervisor-details").html("<p class='text-center text-danger'>Error loading supervisor details.</p>");
                }
             });
-            modalInstance.show();
-            // Close the modal if clicking outside the modal-dialog area
-            $(document).on('click.modalClose', function (e) {
-               if (!$(e.target).closest('.modal-dialog').length && $(e.target).closest('#supervisorDetailsModal').length) {
-                  modalInstance.hide();
-                  $(document).off('click.modalClose'); // Remove this handler after closing
-               }
-            });
-            // Also close the modal if Esc is pressed (keyboard: true already handles this)
-            $(document).on('keydown.modalClose', function (e) {
-               if (e.key === "Escape") {
-                  modalInstance.hide();
-                  $(document).off('keydown.modalClose'); // Remove this handler after closing
-               }
-            });
-            // Clean up any lingering event handlers on modal hide
-            $('#supervisorDetailsModal').on('hidden.bs.modal', function () {
-               $(document).off('click.modalClose');
-               $(document).off('keydown.modalClose');
-               $("body").removeClass("modal-open"); // Reset body scroll
-            });
+            modal.show();
          });
       });
    </script>
