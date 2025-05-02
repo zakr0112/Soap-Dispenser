@@ -23,7 +23,7 @@ cd Soap-Dispenser
 ```
 Note: This should clone the repository into your file system and navigate to it\
 If for example you are using visual studio code, make sure it's a blank window when\
-cloning the repo, and after cloning the reop succesfully make sure you press\
+cloning the repo, and after cloning the repo succesfully make sure you press\
 "open folder" and select the one called "Soap-Dispenser"
 
 
