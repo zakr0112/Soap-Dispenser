@@ -1,3 +1,7 @@
+## Website [LIVE!!!]
+https://soap-dispenser.onrender.com/
+https://soapdispenser.tiiny.site/
+
 # Soap-Dispenser
 Website for the tracking of a motion sensor soap dispenser device
 
@@ -57,6 +61,8 @@ python manage.py runserver
 ## Additional Information
 
 * Using Django as the web framework
-* sqlite3 database
+* sqlite3 databasehttps://soapdispenser.tiiny.site/
 * bulma CSS
 * JavaScript
+* Hosted on render
+* Using tiinyhost image and file hosting
