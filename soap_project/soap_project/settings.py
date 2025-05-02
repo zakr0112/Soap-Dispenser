@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m5xa)t9aplcm)4-*_@d+$dx^nqq*l*)vg85$^6eorbin&tp$7z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [https://soap-dispenser.onrender.com]
+ALLOWED_HOSTS = ['soap-dispenser.onrender.com']
 
 
 # Application definition
