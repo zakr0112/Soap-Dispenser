@@ -1,5 +1,6 @@
-## Website [LIVE!!!]
-https://soap-dispenser.onrender.com/
+## Website
+The live version of this project is available below \
+https://soap-dispenser.onrender.com/ \
 https://soapdispenser.tiiny.site/
 
 # Soap-Dispenser
