@@ -62,7 +62,7 @@ python manage.py runserver
 ## Additional Information
 
 * Using Django as the web framework
-* sqlite3 databasehttps://soapdispenser.tiiny.site/
+* sqlite3 database https://soapdispenser.tiiny.site/
 * bulma CSS
 * JavaScript
 * Hosted on render
